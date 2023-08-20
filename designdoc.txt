@@ -1,0 +1,16 @@
+This is a rough description of the project
+
+
+There are two parts to this project:
+- a state machine
+- a serial interface over ethernet emulator
+
+
+The state machine produces state messages and sends them to any client connected to the serial interface over the network.
+Any app connecting to the serial interface can send commands that change the state of the state machine.
+
+The state machine is super simple at first, with very limited logic. As app development continues and deeper issues require debugging and emulation, the state machine will become more complex and capable to reflect our deepening understanding of the LX200 inner workings.
+
+NOTE: this utility is intended to assist in the development of LX200 apps only, it is a convenience measure so developers do not need to connect to a functioning LX200 all the time.
+
+

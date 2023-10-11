@@ -87,7 +87,9 @@ def emulate_telescope(port):
             try:
                 data = client_socket.recv(1024)
                 print(data)
-                if data: # data received
+                if data == b'' : # empty data received, counter party closed connection
+                    break # exit the while loop and close the connection
+                else:
                     data_buffer = data.decode() # decode binary string to UTF
                     print(f"data received:[{data_buffer}]")
 

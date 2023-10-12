@@ -12,6 +12,8 @@ import time
 import sys
 
 # Emulated telescope state machine
+
+
 class TelescopeStateMachine:
 
     def __init__(self):
@@ -19,6 +21,7 @@ class TelescopeStateMachine:
         self.ra=18.91
         self.dec=33.06
         self.mount_mode='A'
+        self.find_field_diameter=15
 
     def deg_min_sec(self,degrees):
         deg=int(degrees)
@@ -29,37 +32,98 @@ class TelescopeStateMachine:
 
         return deg, min, sec
 
+    def nack(self): # return a 'telescope is busy' response
+        return '\x15'
+
+
+
+
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Telescope Information ':G'
+    # +-----------------------------------------------------------------------------------------------------------+
+
+    def get_alignment_menu_entry(self):
+        return '1#'
 
     def get_telescope_dec(self):
         deg, min, sec = self.deg_min_sec(self.dec)
-        sign='+'
-        if self.dec <0:
-            sign='-'
+        sign = '+'
+        if self.dec < 0:
+            sign = '-'
         return f'{sign}{deg}*{min}\'{sec}#'
+
+    def get_find_field_diameter(self):
+        return '%03d#'.format(self.find_field_diameter)
 
     def get_telescope_ra(self):
         deg, min, sec = self.deg_min_sec(self.ra)
         return f'{deg}:{min}:{sec}#'
 
+    def process_telescope_information(self,command):
+        match command[1:2]:
+            case 'G0':
+                return self.get_alignment_menu_entry()
+            case 'GD':
+                return self.get_telescope_dec()
+            case 'GF':
+                return self.get_find_field_diameter()
+            case 'GR':
+                return self.get_telescope_ra()
+            case _:
+                return self.nack()
+
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Slew Rate ':R'
+    # +-----------------------------------------------------------------------------------------------------------+
     def set_slew_rate_to_centering(self):
-        return None # a command that does not require a response
+        return None  # a command that does not require a response
+
+    def process_slew_rate(self, command):
+        match command[1:2]:
+            case 'RC':
+                return self.set_slew_rate_to_centering()
+            case _:
+                return self.nack()
+
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block telescope Set commands ':S'
+    # +-----------------------------------------------------------------------------------------------------------+
+    def set_find_field_diameter(self,command):
+        diameter=int(command[3:5])
+        print(f'Field diameter set to {diameter}')
+        self.find_field_diameter=diameter
+        # if field diameter is valid return 1, else return 0
+        # assume that the value is always correct
+        return 1
+
+
+
+    def process_telescope_set(self, command):
+        match command[1:2]:
+            case 'SF':
+                return self.set_find_field_diameter(command)
+            case _:
+                return self.nack()
+
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block command Tree
+    # +-----------------------------------------------------------------------------------------------------------+
 
     def process_command(self, command):
         print(f'Command {command}')
-        if command == 'A':
-            return
-        elif command == ':GR':
-            return self.get_telescope_ra()
-        elif command == ':GD':
-            return self.get_telescope_dec()
-        elif command == ':RC':
-            return self.set_slew_rate_to_centering()
-        elif command == 'D':
-            return time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime())
-        elif command == 'L':
-            return 'Lat: 42.3601° N, Long: 71.0589° W'
-        else:
-            return '\x15'
+        match command[0:1]:
+            case ':A':
+                return self.process_alignment(command)
+            case ':G':
+                return self.process_telescope_information(command)
+            case ':R':
+                return self.process_slew_rate(command)
+            case ':S':
+                return self.process_telescope_set(command)
+            case _:
+                return self.nack()
+
+
 
 # Emulated LX200 telescope server
 def emulate_telescope(port):

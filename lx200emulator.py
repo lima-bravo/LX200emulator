@@ -9,7 +9,9 @@
 #
 import socket
 import time
+import datetime
 import sys
+
 
 # Emulated telescope state machine
 
@@ -22,6 +24,7 @@ class TelescopeStateMachine:
         self.dec=33.06
         self.mount_mode='A'
         self.find_field_diameter=15
+        self.display = 'Current display'
 
     def deg_min_sec(self,degrees):
         deg=int(degrees)
@@ -35,9 +38,27 @@ class TelescopeStateMachine:
     def nack(self): # return a 'telescope is busy' response
         return '\x15'
 
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Telescope Information ':A'
+    # +-----------------------------------------------------------------------------------------------------------+
 
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Display Information ':E'
+    # +-----------------------------------------------------------------------------------------------------------+
 
+    def basic_display(self):
+        # create a timestamp display to return to
+        current_time = datetime.datetime.now()
+        return f'*** {current_time} ***'
 
+    def get_handset_display(self,command):
+        target = command[1:3]
+        print(f'{sys._getframe().f_code.co_name} Match {target}')
+        match target:
+            case 'ED' :
+                return self.basic_display() # return the state of the display, the state engine should start covering this
+            case _ :
+                return 'Unknown display'
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Telescope Information ':G'
     # +-----------------------------------------------------------------------------------------------------------+
@@ -60,7 +81,9 @@ class TelescopeStateMachine:
         return f'{deg}:{min}:{sec}#'
 
     def process_telescope_information(self,command):
-        match command[1:2]:
+        target=command[1:3]
+        print(f'{sys._getframe(  ).f_code.co_name} Match {target}')
+        match target:
             case 'G0':
                 return self.get_alignment_menu_entry()
             case 'GD':
@@ -79,7 +102,9 @@ class TelescopeStateMachine:
         return None  # a command that does not require a response
 
     def process_slew_rate(self, command):
-        match command[1:2]:
+        target=command[1:3]
+        print(f'{sys._getframe(  ).f_code.co_name} Match {target}')
+        match target:
             case 'RC':
                 return self.set_slew_rate_to_centering()
             case _:
@@ -89,17 +114,18 @@ class TelescopeStateMachine:
     # function block telescope Set commands ':S'
     # +-----------------------------------------------------------------------------------------------------------+
     def set_find_field_diameter(self,command):
-        diameter=int(command[3:5])
+        diameter=int(command[3:6])
         print(f'Field diameter set to {diameter}')
         self.find_field_diameter=diameter
         # if field diameter is valid return 1, else return 0
         # assume that the value is always correct
-        return 1
+        return '1'
 
 
 
     def process_telescope_set(self, command):
-        match command[1:2]:
+        target=command[1:3]
+        match target:
             case 'SF':
                 return self.set_find_field_diameter(command)
             case _:
@@ -110,10 +136,13 @@ class TelescopeStateMachine:
     # +-----------------------------------------------------------------------------------------------------------+
 
     def process_command(self, command):
-        print(f'Command {command}')
-        match command[0:1]:
+        target = command[0:2]
+        print(f'{sys._getframe(  ).f_code.co_name} Match {target}')
+        match target:
             case ':A':
                 return self.process_alignment(command)
+            case ':E':
+                return self.get_handset_display(command)
             case ':G':
                 return self.process_telescope_information(command)
             case ':R':
@@ -150,7 +179,7 @@ def emulate_telescope(port):
 
             try:
                 data = client_socket.recv(1024)
-                print(data)
+                print(f'raw data received:[{data}]')
                 if data == b'' : # empty data received, counter party closed connection
                     break # exit the while loop and close the connection
                 else:
@@ -163,13 +192,13 @@ def emulate_telescope(port):
                         for c in command: # run through all the commands
                             # check if the command starts with :
                             if len(c)>1: # make sure it is long enough to hold a command
-                                print(f'Processing {c}')
+                                # print(f'Processing {c}')
                                 if c[0] == ':':
-                                    print(f"Received command: {c}")
+                                    # print(f"Received command: {c}")
 
                                     response = state_machine.process_command(c)
                                     if response is not None:
-                                        print(f'Sending response {response}')
+                                        print(f'Sending response [{response}]')
                                         client_socket.sendall(response.encode('utf-8'))
 
 

@@ -1,0 +1,1693 @@
+[1;36mStarting tcpick 0.2.1 at 2023-10-13 22:19 CEST[0;0m
+[1;35mTimeout for connections is 600[0;0m
+[1;32mtcpick: reading from /home/lroot/astropad-dump-2.pcap[0;0m
+[1;35m1      [0;0m[1;33mSYN-SENT      [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m1      [0;0m[1;33mSYN-RECEIVED  [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m1      [0;0m[1;32mESTABLISHED   [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;32m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+:SF021#:GF#:G0#
+:GVP#:G0#
+:ED#:G0#
+1021'##LX2001##
+[0;31m.[0;0mSelect Item:   
+:SF022#:GF#:G0#
+:GVN#:G0#
+  Object        
+ ##1022'##4.2l##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:SF021#:GF#:G0#
+1021'##
+:GVP#:G0#
+LX2001##
+:SF022#:GF#:G0#
+:GVN#:G0#
+:ED#:G0#
+1022'##4.2l##
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Event        
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Glossary     
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Utilities    
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:EK85#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:EK85#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:EK85#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:EK85#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:EK85#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Setup        
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Setup         
+ ##
+:EK9#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+:EK49#:G0#
+  Object        
+ ##
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 3[0;31m.[0;0m/sec  
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 3[0;31m.[0;0m/sec  
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 3[0;31m.[0;0m/sec  
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 3[0;31m.[0;0m/sec  
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:EK68#:G0#
+:ED#:G0#
+#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.5[0;31m.[0;0m/sec
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+:EK68#:G0#
+ Rate = 0.5[0;31m.[0;0m/sec
+ ###
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+c##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+c##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+c##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+c##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+c##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 0.25[0;31m.[0;0m/se
+:EK68#:G0#
+c##
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 16x     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 16x     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 16x     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 16x     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 16x     
+ ##
+:EK68#:G0#
+:ED#:G0#
+#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:R3#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+:SF001#:GF#:G0#
+ ##
+:GR#:G0#
+1001'##
+:SF002#:GF#:G0#
+:GD#:G0#
+05:29:28##1002'#
+#+37[0;31m.[0;0m17:16##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##
+:SF002#:GF#:G0#
+:GD#:G0#
+05:29:29##
+1002'##+37[0;31m.[0;0m17:16
+##
+##
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##
+:Me#:G0#
+:ED#:G0#
+:SF002#:GF#:G0#
+:GD#:G0#
+:Qe#:G0#
+05:29:30##
+#[0;31m.[0;0mSet Slew Speed
+  Rate = 8x     
+  ##
+1
+002'#
+#
++37[0;31m.[0;0m17:16#
+##
+:SF001#:GF#:G0#
+:GR#:G0#
+1
+001'##05:29:31#
+#
+:SF002#:GF#:G0#
+:GD#:G0#
+1
+002'##+37[0;31m.[0;0m17:16#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:Me#:G0#
+#
+:SF001#:GF#:G0#
+:GR#:G0#
+1
+001'#
+#
+05:29:34##
+:SF002#:GF#:G0#
+:GD#:G0#
+1
+002'#
+#+37[0;31m.[0;0m17:13##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##
+:Qe#:G0#
+:SF002#:GF#:G0#
+:GD#:G0#
+05:29:28###1
+002'##+37[0;31m.[0;0m17:16#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ #
+#
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##05:29:20#
+#
+:SF002#:GF#:G0#
+:GD#:G0#
+1002'##+37[0;31m.[0;0m17:15
+##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+1001'##
+:GR#:G0#
+:SF002#:GF#:G0#
+:GD#:G0#
+05:29:17##1002'#
+#+37[0;31m.[0;0m17:21##
+#+37[0;31m.[0;0m17:21##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##
+:SF002#:GF#:G0#
+:GD#:G0#
+05:29:18##1002'#
+#+37[0;31m.[0;0m17:21##
+:R7#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+1001'##
+:GR#:G0#
+:SF002#:GF#:G0#
+:GD#:G0#
+:Mw#:G0#
+05:29:19##1002'#
+#+37[0;31m.[0;0m17:21##
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+:GR#:G0#
+1
+001'##05:29:19##
+:Qw#:G0#
+#
+:SF002#:GF#:G0#
+:GD#:G0#
+1
+002'#
+#
++37[0;31m.[0;0m17:21##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+:GR#:G0#
+1001'##
+05:32:05##
+:SF002#:GF#:G0#
+:GD#:G0#
+:Me#:G0#
+1002'##
++37[0;31m.[0;0m17:01###
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ #
+#
+:SF001#:GF#:G0#
+1
+:GR#:G0#
+001'##
+05:33:15#
+#
+:SF002#:GF#:G0#
+1
+:GD#:G0#
+002'##+37[0;31m.[0;0m17:01#
+:Qe#:G0#
+#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:SF001#:GF#:G0#
+1001'##
+:GR#:G0#
+05:33:16##
+:SF002#:GF#:G0#
+:GD#:G0#
+1002'##
++37[0;31m.[0;0m17:12##
++37[0;31m.[0;0m17:12##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+:SF001#:GF#:G0#
+:GR#:G0#
+ ##
+1001'##05:30:34#
+#
+:SF002#:GF#:G0#
+:GD#:G0#
+1002'##
++37[0;31m.[0;0m17:12##
++37[0;31m.[0;0m17:12##
+:ED#:G0#
+:SF001#:GF#:G0#
+:GR#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##1001'##05:30:
+35##
+:SF002#:GF#:G0#
+1002'##
+:GD#:G0#
++37[0;31m.[0;0m17:12##
+:SF001#:GF#:G0#
+:GR#:G0#
+:ED#:G0#
+1001'##05:30:36#
+#[0;31m.[0;0mSet Slew Speed
+  Rate = 8x     
+  ##
+:SF002#:GF#:G0#
+:GD#:G0#
+1002'##
+:Q#:G0#
++37[0;31m.[0;0m17:12###
+:SF001#:GF#:G0#
+:GR#:G0#
+1
+:ED#:G0#
+001'#
+#
+05:30:37#
+#
+[0;31m.[0;0mSet Slew Speed 
+:SF002#:GF#:G0#
+:GD#:G0#
+ Rate = 8x      
+ ##1002'##+37[0;31m.[0;0m17
+:12##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 8x      
+ ##
+:hW#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:SF021#:GF#:G0#
+:GVP#:G0#
+1021'##LX2001##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+:hW#:G0#
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+#
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:SF006#:GF#:G0#
+1006'##
+:GW#:G0#
+ANP#
+:hW#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSet Slew Speed
+  Rate = 1.5[0;31m.[0;0m/se
+c ##
+c ##
+#[0;31m.[0;0mSet Slew Speed  Rate = 1.5[0;31m.[0;0m/sec ##
+:P#:SF007#:GF#:G0#
+HIGH PRECISION10
+07'##
+:P#:G0#
+LOW  PRECISION#
+:hW#:G0#
+:ED#:G0#
+#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+:SF005#:GF#:G0#
+:GT#:G0#
+1005'##+60.0##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+:hW#:G0#
+ Rate = 1.5[0;31m.[0;0m/sec
+ ##
+#
+:ES5900#:G0#
+:ED#:G0#
+#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSet Slew Speed 
+ Rate = Max     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ #
+:ED#:G0#
+#[0;31m.[0;0mCurrent Target
+s:>Terrestrial  
+  ##
+:SF022#:GF#:G0#
+:GVN#:G0#
+:ED#:G0#
+1022'##4.2l##[0;31m.[0;0mCu
+rrent Targets:>T
+errestrial    ##
+:SF035#:GF#:G0#
+:GC#:G0#
+1035'##09/07/23#
+#
+:SF034#:GF#:G0#
+1034'##
+:GL#:G0#
+20:01:31##
+:SF033#:GF#:G0#
+:GS#:G0#
+1033'##17:29:15#
+#
+:SF041#:GF#:G0#
+:GM#:G0#
+1041'##Irvine##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF042#:GF#:G0#
+:Gt#:G0#
+:>Terrestrial   
+ ##1042'##+52[0;31m.[0;0m10
+:44##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF043#:GF#:G0#
+:>Terrestrial   
+:Gg#:G0#
+ ##1043'##354[0;31m.[0;0m36
+:54##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF003#:GF#:G0#
+:>Terrestrial   
+:GA#:G0#
+ ##1003'##
++00[0;31m.[0;0m00:10##
++00[0;31m.[0;0m00:10##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF004#:GF#:G0#
+:>Terrestrial   
+:GZ#:G0#
+ ##1004'##
+359[0;31m.[0;0m49:34##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF001#:GF#:G0#
+:>Terrestrial   
+:GR#:G0#
+ ##1001'##
+05:30:54##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF002#:GF#:G0#
+:>Terrestrial   
+:GD#:G0#
+ ##1002'##
++37[0;31m.[0;0m17:12#
+#
+#
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF044#:GF#:G0#
+:>Terrestrial   
+:Gr#:G0#
+ ##1044'##05:28:
+25##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:SF045#:GF#:G0#
+:>Terrestrial   
+:Gd#:G0#
+ ##1045'##+37[0;31m.[0;0m50
+:27##
+:ED#:G0#
+[0;31m.[0;0mCurrent Targets
+:ES3852#:G0#
+:>Terrestrial   
+ ##
+#
+#
+:EK9#:G0#
+#
+:EK9#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+[1;35m1      [0;0m[1;33mFIN-WAIT-1    [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m1      [0;0m[1;33mTIME-WAIT     [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m1      [0;0m[1;31mCLOSED        [0;0m[1;32m 192.168.178.227:49186 [0;0m[1;31m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m2      [0;0m[1;33mSYN-SENT      [0;0m[1;32m 192.168.178.227:49189 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m2      [0;0m[1;33mSYN-RECEIVED  [0;0m[1;32m 192.168.178.227:49189 [0;0m[1;33m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[1;35m2      [0;0m[1;32mESTABLISHED   [0;0m[1;32m 192.168.178.227:49189 [0;0m[1;32m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+:SF021#:GF#:G0#
+:GVP#:G0#
+1021'##LX2001##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+:SF022#:GF#:G0#
+:GVN#:G0#
+  Object        
+ ##1022'##4.2l##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:SF021#:GF#:G0#
+1021'##
+:GVP#:G0#
+LX2001##
+:SF022#:GF#:G0#
+1022'##
+:GVN#:G0#
+:ED#:G0#
+4.2l##[0;31m.[0;0mSelect It
+em:     Object  
+       ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Event        
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+:EK85#:G0#
+  Event         
+ ###
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:EK13#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mObject:       
+   Constellation
+  ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Constellation 
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Constellation 
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Constellation 
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+:EK85#:G0#
+  Constellation 
+ ##
+:ED#:G0#
+#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:EK13#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mercury       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mercury       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mercury       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mercury       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mercury       
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Venus         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Venus         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Venus         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Venus         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Venus         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+:EK68#:G0#
+  Venus         
+ ##
+:ED#:G0#
+#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Mars          
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Jupiter       
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSolar System:  
+  Saturn        
+ ##
+:EK9#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:ED#:G0#
+[0;31m.[0;0mObject:        
+  Solar System  
+ ##
+:EK9#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Object        
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Event         
+:EK68#:G0#
+ ##
+#
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Guided Tour   
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+:EK68#:G0#
+  Guided Tour   
+ ###
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Glossary      
+ ##
+:EK68#:G0#
+:ED#:G0#
+#[0;31m.[0;0mSelect Item:  
+   Utilities    
+  ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:ED#:G0#
+[0;31m.[0;0mSelect Item:   
+  Utilities     
+ ##
+:EK13#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:EK68#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Alarm         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Alarm         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Alarm         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Alarm         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Alarm         
+ ##
+:EK85#:G0#
+#
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Timer         
+ ##
+:EK85#:G0#
+:ED#:G0#
+#[0;31m.[0;0mUtilities:    
+   Park Scope   
+  ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+ ##
+:ED#:G0#
+[0;31m.[0;0mUtilities:     
+  Park Scope    
+:EK13#:G0#
+ ##
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ #
+:ED#:G0#
+#
+[0;31m.[0;0mParking Scope  
+                
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+                
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0mlb[0;31m.[0;0m_dns-sd[0;31m.[0;0m_udp[0;31m.[0;0mlocal[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_devoncloudy[0;31m.[0;0m_tcp[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_http[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_https[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_webdav[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_webdavs[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m
+:ED#:G0#
+[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0mlb[0;31m.[0;0m_dns-sd[0;31m.[0;0m_udp[0;31m.[0;0mlocal[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_devoncloudy[0;31m.[0;0m_tcp[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_http[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_https[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_webdav[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m_webdavs[0;31m.[0;0m4[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m
+[0;31m.[0;0mParking 
+Scope   Slewing.
+..      #
+#
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ ##
+[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0mlb[0;31m.[0;0m_dns-sd[0;31m.[0;0m_udp[0;31m.[0;0mlocal[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m
+:ED#:G0#
+[0;31m.[0;0mParking Scope  
+ Slewing...     
+ #
+#
+:ED#:G0#
+[0;31m.[0;0mScope parked   
+ Turn scope off.
+ #
+:ED#:G0#
+[0;31m.[0;0mScope parked   
+ Turn scope off.
+ #
+[1;35m2      [0;0m[1;31mRESET         [0;0m[1;32m 192.168.178.227:49189 [0;0m[1;31m> [0;0m[1;36m192.168.178.20[0;0m:[1;34m4030[0;0m
+[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0mlb[0;31m.[0;0m_dns-sd[0;31m.[0;0m_udp[0;31m.[0;0mlocal[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m
+[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0mlb[0;31m.[0;0m_dns-sd[0;31m.[0;0m_udp[0;31m.[0;0mlocal[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m[0;31m.[0;0m
+[1;35mtcpick: done reading from /home/lroot/astropad-dump-2.pcap[0;0m
+[1;36m
+3065 packets captured[0;0m
+[1;36m2 tcp sessions detected[0;0m

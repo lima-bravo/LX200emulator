@@ -48,8 +48,20 @@ class TelescopeStateMachine:
 
     def basic_display(self):
         # create a timestamp display to return to
-        current_time = datetime.datetime.now()
-        return f'*** {current_time} ***'
+        # current_time = datetime.datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
+        # return a string that ScopeBoss will recognize
+        return f'Object'
+
+    def get_keypress(self,command):
+        target = command[3:] # get the keypress to the end
+        print(f'{sys._getframe().f_code.co_name} Match {target}')
+
+        match target:
+            case '9' :
+                return 'Mode#'
+            case _ :
+                return self.basic_display()
+
 
     def get_handset_display(self,command):
         target = command[1:3]
@@ -57,8 +69,10 @@ class TelescopeStateMachine:
         match target:
             case 'ED' :
                 return self.basic_display() # return the state of the display, the state engine should start covering this
+            case 'EK' :
+                return self.get_keypress(command)
             case _ :
-                return 'Unknown display'
+                return 'Select#'
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Telescope Information ':G'
     # +-----------------------------------------------------------------------------------------------------------+
@@ -80,6 +94,9 @@ class TelescopeStateMachine:
         deg, min, sec = self.deg_min_sec(self.ra)
         return f'{deg}:{min}:{sec}#'
 
+    def get_scope_status(self):
+        return '006#'
+
     def process_telescope_information(self,command):
         target=command[1:3]
         print(f'{sys._getframe(  ).f_code.co_name} Match {target}')
@@ -92,6 +109,8 @@ class TelescopeStateMachine:
                 return self.get_find_field_diameter()
             case 'GR':
                 return self.get_telescope_ra()
+            case 'GW':
+                return self.get_scope_status()
             case _:
                 return self.nack()
 

@@ -18,9 +18,130 @@ import copy
 
 def plog(log):
     current_time = datetime.datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
-    print f'[{current_time}] {log}'
+    print(f'[{current_time}] {log}')
 
 class TelescopeStateMachine:
+    menu_structure = {
+        'Object' : {
+            'Solar System' : {
+                'Mercury' : [],
+                'Venus' : [],
+                'Mars' : [],
+                'Jupiter' : [],
+                'Saturn' : [],
+                'Uranus' : [],
+                'Neptune' : [],
+                'Pluto' : [],
+                'Moon' : ['Overview', 'Landing Sites', 'Craters', 'Mountains', 'Mare,Lakes...', 'Valleys,Rills..' ],
+                'Asteroids' : ['Select', 'Add', 'Delete', 'Edit'],
+                'Comets' : ['Select', 'Add', 'Delete', 'Edit']
+            },
+            'Constellation' : {},
+            'Deep Sky' : {
+                'Named Objects' : [],
+                'Galaxies' : [],
+                'Nebulas' : [],
+                'Planetary Neb.' : [],
+                'Star Clusters' : [],
+                'Quasars' : [],
+                'Black Holes' : [],
+                'Abell Clusters' : [],
+                'Arp Galaxies' : [],
+                'MCG' : [],
+                'UGC' : [],
+                'Herschel ' : [],
+                'IC Objects' : [],
+                'NGC Objects' : [],
+                'Caldwell Objects' : [],
+                'Messier Objects' : [],
+                'Custom Catalogs' : []
+            },
+            'Star' : {
+                'Named' : [],
+                'Hipparcos Cat.' : [],
+                'SAO Catalog' : [],
+                'HD Catalog' : [],
+                'HR Catalog' : [],
+                'Multiple' : [],
+                'GCVS(variables)' : [],
+                'Nearby' : [],
+                'With Planets' : []
+            },
+            'Satellite' : ['Select', 'Add', 'Delete', 'Edit'],
+            'User Object' : ['Select', 'Add', 'Delete', 'Edit'],
+            'Landmarks' : ['Select', 'Add', 'Delete', 'Edit'],
+            'Identify' : ['Browse', 'Start Search', 'Edit Parameters']
+        },
+        'Event' : {
+            'Sunrise' : [],
+            'Sun\'s Transit' : [],
+            'Sunset' : [],
+            'Moonrise' : [],
+            'Moon\'s Transit' : [],
+            'Moonset' : [],
+            'Moon Phases' : ['Next Full Moon', 'Next New Moon', 'Next 1st Qtr', 'Next 3rd Qtr'],
+            'Meteor Showers' : [],
+            'Solar Eclipses' : [],
+            'Lunar Eclipses' : [],
+            'Min. of Algol' : [],
+            'Autumn Equinox' : [],
+            'Vernal Equinox' : [],
+            'Winter Solstice' : [],
+            'Summer Solstice' : []
+        },
+        'Guided Tour' : {},
+        'Glossary' : {},
+        'Utilities' : {
+            'Ambient Temp.' : [],
+            'Timer' : ['Set', 'Start/Stop' ],
+            'Alarm' : ['Set', 'On/Off'],
+            'Eyepiece Calc.' : ['Field of View', 'Magnification', 'Suggest'],
+            'Brightest Star' : [],
+            'Brightness Adj.' : [],
+            'Panel Light' : [],
+            'Aux Port Power' : [],
+            'Beep' : [],
+            'Battery Alarm' : [],
+            'Landmark Survey' : [],
+            'Sleep Scope' : [],
+            'Park Scope' : []
+        },
+        'Setup' : {
+            'Align' : ['Easy', 'One Star', 'Two Star', 'Align on Home', 'Automatic'],
+            'Date' : [],
+            'Time' : [],
+            'Daylight Savings' : [],
+            'GPS-UTC Offset' : [],
+            'Telescope' : {
+                'Mount' : [],
+                'Telescope Model' : [],
+                'Focal Length' : [],
+                'Max Slew Rate' : [],
+                'Mnt.Upper Limit' : [],
+                'Mnt.Lower Limit' : [],
+                'Park Position' : ['Use Current', 'Use Default'],
+                'Calibrate Home' : [],
+                'Anti-Backlash' : [ 'RA/Az Percent', 'Dec/Alt Percent', 'RA/AZ Train', 'Dec/Alt Train'],
+                'Cal. Sensors' : [],
+                'Tracking Rate' : [],
+                'Guiding Rate' : [],
+                'Dec. Guiding' : [],
+                'Reverse L/R' : [],
+                'Reverse UP/DOWN' : [],
+                'Home Sensors' : [],
+                'GPS Alignment' : [],
+                'RA PEC' : ['On/Off', 'Restore Factory', 'Train', 'Update'],
+                'DEC PEC' : ['On/Off', 'Restore Factory', 'Train', 'Update'],
+                'Field Derotator' : [],
+                'High Precision' : []
+            }
+        },
+        'Targets' : {},
+        'Site' : {
+
+        }
+    }
+
     send_buffer = ''
 
     def __init__(self):
@@ -29,11 +150,81 @@ class TelescopeStateMachine:
         self.dec = 33.06
         self.mount_mode = 'A'
         self.find_field_diameter = 15
-        self.display_line0 = '\x97Select Item:   '
+        self.display_line0 = 'Select Item:    '
         self.display_line1 = ' Utilities      '
         self.display = ''
         self.object = '\x97Select Item:     Object         #'
         self.send_buffer = ''  # make the send buffer empty
+        self.current_menu_depth = 0
+        self.current_menu_keys = [ list(self.menu_structure.keys())[0] ] # get the first entry and make this the default menu entry
+
+
+    def navigate_menu(self,command):
+        # there are four possible commands:
+        # R - enter : select this menu item and access the lower level menu or execute the function
+        # L - exit  : leave this menu item and go to a higher leve menu if available
+        # U - up : go to a previous menu item
+        # D - down : go to a next menu item
+        plog(f'{sys._getframe().f_code.co_name} Match {command}, current pointer {self.current_menu_keys}')
+        # find the appropriate sub menu structure:
+        submenu = self.get_sub_menu(self.current_menu_keys)
+
+
+    def get_level_menu(self, menu_keys):
+        # return a list of peer menu items for the menu item pointed to by the menu_keys
+        local = self.menu_structure
+        for k in menu_keys:  # iterate down the submenu's
+            level = list(local.keys())
+            local = local[k]
+
+        plog(f'Peer menu \'{k}\' : {level}')
+        return level
+
+    def get_sub_menu(self, menu_keys):
+        #
+        local = self.menu_structure
+        for k in menu_keys: # iterate down the submenu's
+            local = local[k]
+
+        if type(local) is dict:
+            submenu = list(local.keys())
+        else:
+            submenu = local
+
+        plog(f'Sub menu \'{k}\' : {submenu}')
+        return submenu
+
+    def get_key_index(self, fieldlist, searchkey):
+        for i, key in enumerate(fieldlist):
+            if key == searchkey:
+                index = i
+                break
+
+        return index
+
+    def get_previous_menu_entry(self,menu, item):
+        if type(menu) is dict:
+            fields = list(menu.keys())
+        else:
+            fields = list(menu)
+
+        index = self.get_key_index(fields,item)
+
+        return fields[index-1] # this will wrap around when index is 0
+
+    def get_next_menu_entry(self,menu, item):
+        if type(menu) is dict:
+            fields = list(menu.keys())
+        else:
+            fields = list(menu)
+
+        index = self.get_key_index(fields, item)
+
+        if index == len(fields)-1:
+            return fields[0]
+
+        return fields[index + 1]  # this will wrap around when index is 0
+
 
     def deg_min_sec(self, degrees):
         deg = int(degrees)
@@ -56,10 +247,9 @@ class TelescopeStateMachine:
     # +-----------------------------------------------------------------------------------------------------------+
 
     def basic_display(self):
-        # create a timestamp display to return to
-        # current_time = datetime.datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
         # return a string that ScopeBoss will recognize
-        return f'{self.display_line0}{self.display_line1}#'
+        # start with the string code and close with the double hash
+        return f'\x97{self.display_line0}{self.display_line1}#' # no double # needed, this was a misinterpretation
 
     def get_keypress(self, command):
         target = command[3:]  # get the keypress to the end
@@ -73,21 +263,22 @@ class TelescopeStateMachine:
 
     def get_handset_display(self, command):
         target = command[1:3]
-        plog(f'{sys._getframe().f_code.co_name} Match {target}')
+        # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
             case 'ED':
                 return self.basic_display()  # return the state of the display, the state engine should start covering this
             case 'EK':
                 return self.get_keypress(command)
             case _:
-                return 'Select Item:'
+                return self.basic_display()
 
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Telescope Information ':G'
     # +-----------------------------------------------------------------------------------------------------------+
 
     def get_alignment_menu_entry(self):
-        return 'LX2001#'
+        # return 'LX2001#'
+        return '#'
 
     def get_telescope_dec(self):
         deg, min, sec = self.deg_min_sec(self.dec)
@@ -97,7 +288,7 @@ class TelescopeStateMachine:
         return f'{sign}{deg}*{min}\'{sec}#'
 
     def get_find_field_diameter(self):
-        return '1{:03d}#'.format(self.find_field_diameter)
+        return '1{:03d}'#'.format(self.find_field_diameter)
 
     def get_telescope_ra(self):
         deg, min, sec = self.deg_min_sec(self.ra)
@@ -108,7 +299,7 @@ class TelescopeStateMachine:
 
     def get_telescope_firmware(self, command):
         target = command[1:4]
-        plog(f'{sys._getframe().f_code.co_name} Match {target}')
+        # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
             case 'GVD':
                 return f'{datetime.strftime("%b %d %Y")}#'
@@ -121,7 +312,7 @@ class TelescopeStateMachine:
 
     def process_telescope_information(self, command):
         target = command[1:3]
-        plog(f'{sys._getframe().f_code.co_name} Match {target}')
+        # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
             case 'G0':
                 return self.get_alignment_menu_entry()
@@ -146,7 +337,7 @@ class TelescopeStateMachine:
 
     def process_slew_rate(self, command):
         target = command[1:3]
-        plog(f'{sys._getframe().f_code.co_name} Match {target}')
+        # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
             case 'RC':
                 return self.set_slew_rate_to_centering()
@@ -178,7 +369,7 @@ class TelescopeStateMachine:
 
     def process_command(self, command):
         target = command[0:2]
-        plog(f'{sys._getframe().f_code.co_name} Match {target}')
+        # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         result = None
         match target:
             case ':A':
@@ -230,7 +421,7 @@ def listen_for_and_process_data(client_socket, state_machine):
                 break  # exit the while loop and close the connection
             else:
                 data_buffer = data.decode()  # decode binary string to UTF
-                plog(f"data received:[{data_buffer}]")
+                # plog(f"data received:[{data_buffer}]")
 
                 if '#' in data_buffer:  # the carriage return signals a command,
                     command = data_buffer.split('#')  # split according to the commands
@@ -297,10 +488,32 @@ def test_case_pop_send_buffer():
             print(f'Popped from send_buffer : {result}')
 
 
+def test_menu_structure():
+    key_sequences = [
+        'U'
+     #   'UUUURUUURUUDDDDDDLDDDDLDDDDD'
+    ]
+
+    for k in key_sequences:
+        # start executing the commands against the menu
+        state_machine = TelescopeStateMachine()
+        target = ['Object']
+        menu = state_machine.get_level_menu(target)
+        submenu = state_machine.get_sub_menu(target)
+
+        next_item = state_machine.get_next_menu_entry(menu,target[0])
+        print(f'next item : {next_item}')
+        next_item = state_machine.get_previous_menu_entry(menu,target[0])
+        print(f'prev item : {next_item}')
+
+        for c in k:
+            state_machine.navigate_menu(c)
+
+
 def run_test_cases():
     # run a set of test cases
-    test_case_pop_send_buffer()
-
+    # test_case_pop_send_buffer()
+    test_menu_structure()
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

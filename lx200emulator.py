@@ -158,6 +158,10 @@ class TelescopeStateMachine:
         self.current_menu_depth = 0
         self.current_menu_keys = [ list(self.menu_structure.keys())[0] ] # get the first entry and make this the default menu entry
 
+    def set_display_line1(self, line):
+        self.display_line1 = '{:16}'.format(line)
+        plog(f'Set 2nd display line [{self.display_line1}]')
+
 
     def navigate_menu(self,command):
         # there are four possible commands:
@@ -167,31 +171,74 @@ class TelescopeStateMachine:
         # D - down : go to a next menu item
         plog(f'{sys._getframe().f_code.co_name} Match {command}, current pointer {self.current_menu_keys}')
         # find the appropriate sub menu structure:
-        submenu = self.get_sub_menu(self.current_menu_keys)
+        menu = self.get_level_menu(self.current_menu_keys)
+        #
+        key = self.current_menu_keys[-1]
+        match command:
+            case 'U' :
+                # go to the previous entry in the current menu structure
+                key = self.current_menu_keys[-1] # get the last entry
+                key = self.get_previous_menu_entry(menu,key)
+                self.current_menu_keys[-1] = key
+                plog(f'Moved up to menu entry \'{key}\'')
+            case 'D' :
+                key = self.current_menu_keys[-1]  # get the last entry
+                key = self.get_next_menu_entry(menu, key)
+                self.current_menu_keys[-1] = key
+                plog(f'Moved down to menu entry \'{key}\'')
+            case 'L' :
+                if len(self.current_menu_keys)>1:
+                    key = self.current_menu_keys.pop() # remove the last entry from the list
+                    key = self.current_menu_keys[-1]
+                    plog(f'Moved back to menu entry \'{key}\'')
+                else:
+                    plog(f'NOTE: Already at top level menu')
+                    key = self.current_menu_keys[0]
+            case 'R' :
+                submenu = self.get_sub_menu(self.current_menu_keys)
+                plog(f'Submenu [{submenu}]')
+                if len(submenu)>0:
+                    key = submenu[0]
+                    self.current_menu_keys.append(key)
+                    plog(f'Moved deeper to \'{key}\'')
+                else:
+                    key = self.current_menu_keys[-1]
+                    plog(f'Executing function {self.current_menu_keys}')
+            case _ :
+                pass
+
+        self.set_display_line1(key)
 
 
     def get_level_menu(self, menu_keys):
         # return a list of peer menu items for the menu item pointed to by the menu_keys
         local = self.menu_structure
         for k in menu_keys:  # iterate down the submenu's
-            level = list(local.keys())
-            local = local[k]
+            if type(local) is dict:
+                level = list(local.keys())
+                local = local[k]
+            else:
+                level = list(local)
 
-        plog(f'Peer menu \'{k}\' : {level}')
+        # plog(f'Peer menu \'{k}\' : {level}')
         return level
 
     def get_sub_menu(self, menu_keys):
         #
         local = self.menu_structure
         for k in menu_keys: # iterate down the submenu's
-            local = local[k]
+            if type(local) is dict:
+                local = local[k]
+            else:
+                local={}
+
 
         if type(local) is dict:
             submenu = list(local.keys())
         else:
             submenu = local
 
-        plog(f'Sub menu \'{k}\' : {submenu}')
+        # plog(f'Sub menu \'{k}\' : {submenu}')
         return submenu
 
     def get_key_index(self, fieldlist, searchkey):
@@ -245,6 +292,10 @@ class TelescopeStateMachine:
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Display Information ':E'
     # +-----------------------------------------------------------------------------------------------------------+
+    def goto(self):
+        self.set_display_line1('Slewing')
+        return None
+
 
     def basic_display(self):
         # return a string that ScopeBoss will recognize
@@ -256,8 +307,20 @@ class TelescopeStateMachine:
         plog(f'{sys._getframe().f_code.co_name} Match {target}')
 
         match target:
-            case '9':
-                return 'Mode'
+            case '13' : # Enter
+                self.navigate_menu('R')
+                return None
+            case '68' :
+                self.navigate_menu('U')
+                return None
+            case '71' :
+                return self.goto()
+            case '85' :
+                self.navigate_menu('D')
+                return None
+            case '9': # Mode
+                self.navigate_menu('L')
+                return None
             case _:
                 return self.basic_display()
 
@@ -288,7 +351,7 @@ class TelescopeStateMachine:
         return f'{sign}{deg}*{min}\'{sec}#'
 
     def get_find_field_diameter(self):
-        return '1{:03d}'#'.format(self.find_field_diameter)
+        return '1{:03d}\'#'.format(self.find_field_diameter)
 
     def get_telescope_ra(self):
         deg, min, sec = self.deg_min_sec(self.ra)
@@ -413,15 +476,20 @@ class TelescopeStateMachine:
 
 
 def listen_for_and_process_data(client_socket, state_machine):
+    show_response = True
     while True:
         try:
             data = client_socket.recv(1024)
-            plog(f'raw data received:[{data}]')
+            # plog(f'raw data received:[{data}]')
             if data == b'':  # empty data received, counter party closed connection
                 break  # exit the while loop and close the connection
             else:
                 data_buffer = data.decode()  # decode binary string to UTF
-                # plog(f"data received:[{data_buffer}]")
+                if data_buffer == ':ED#:G0#' :
+                    show_response = False
+                else:
+                    show_response = True
+                    plog(f"data received:[{data_buffer}]")
 
                 if '#' in data_buffer:  # the carriage return signals a command,
                     command = data_buffer.split('#')  # split according to the commands
@@ -440,7 +508,8 @@ def listen_for_and_process_data(client_socket, state_machine):
             # all apps must be able to deal with this
             # check if there is any data waiting to be sent
             response = state_machine.pop_from_send_buffer()
-            plog(f'Sending response [{response}]')
+            if show_response:
+                plog(f'Sending response [{response}]')
             try:
                 client_socket.sendall(response.encode('utf-8'))
             except BrokenPipeError:
@@ -490,17 +559,17 @@ def test_case_pop_send_buffer():
 
 def test_menu_structure():
     key_sequences = [
-        'U'
-     #   'UUUURUUURUUDDDDDDLDDDDLDDDDD'
+        'LLLLUD',
+        'LLLLUUUURUUURUUDDDDDDLDDDDLDDDDD'
     ]
+    # start executing the commands against the menu
+    state_machine = TelescopeStateMachine()
+    target = ['Object']
+    menu = state_machine.get_level_menu(target)
+    submenu = state_machine.get_sub_menu(target)
+
 
     for k in key_sequences:
-        # start executing the commands against the menu
-        state_machine = TelescopeStateMachine()
-        target = ['Object']
-        menu = state_machine.get_level_menu(target)
-        submenu = state_machine.get_sub_menu(target)
-
         next_item = state_machine.get_next_menu_entry(menu,target[0])
         print(f'next item : {next_item}')
         next_item = state_machine.get_previous_menu_entry(menu,target[0])

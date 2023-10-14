@@ -24,7 +24,8 @@ class TelescopeStateMachine:
         self.dec=33.06
         self.mount_mode='A'
         self.find_field_diameter=15
-        self.display = 'Current display'
+        self.display = '\x97Select Item:     Utilities      #'
+        self.object =  '\x97Select Item:     Object         #'
 
     def deg_min_sec(self,degrees):
         deg=int(degrees)
@@ -50,7 +51,7 @@ class TelescopeStateMachine:
         # create a timestamp display to return to
         # current_time = datetime.datetime.now().strftime('%Y-%m-%d@%H:%M:%S')
         # return a string that ScopeBoss will recognize
-        return f'Object'
+        return self.display
 
     def get_keypress(self,command):
         target = command[3:] # get the keypress to the end
@@ -58,7 +59,7 @@ class TelescopeStateMachine:
 
         match target:
             case '9' :
-                return 'Mode#'
+                return 'Mode'
             case _ :
                 return self.basic_display()
 
@@ -72,13 +73,13 @@ class TelescopeStateMachine:
             case 'EK' :
                 return self.get_keypress(command)
             case _ :
-                return 'Select#'
+                return 'Select Item:'
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Telescope Information ':G'
     # +-----------------------------------------------------------------------------------------------------------+
 
     def get_alignment_menu_entry(self):
-        return '1#'
+        return 'LX2001#'
 
     def get_telescope_dec(self):
         deg, min, sec = self.deg_min_sec(self.dec)
@@ -88,14 +89,27 @@ class TelescopeStateMachine:
         return f'{sign}{deg}*{min}\'{sec}#'
 
     def get_find_field_diameter(self):
-        return '%03d#'.format(self.find_field_diameter)
+        return '1%03d#'.format(self.find_field_diameter)
 
     def get_telescope_ra(self):
         deg, min, sec = self.deg_min_sec(self.ra)
         return f'{deg}:{min}:{sec}#'
 
     def get_scope_status(self):
-        return '006#'
+        return '006'
+
+    def get_telescope_firmware(self,command):
+        target=command[1:4]
+        print(f'{sys._getframe().f_code.co_name} Match {target}')
+        match target:
+            case 'GVD':
+                return f'{datetime.strftime("%b %d %Y")}#'
+            case 'GVN':
+                return '4.2l#'
+            case 'GVP':
+                return 'LX200#'
+            case 'GVT':
+                return f'{datetime.strftime("%H:%M:%S")}#'
 
     def process_telescope_information(self,command):
         target=command[1:3]
@@ -109,6 +123,8 @@ class TelescopeStateMachine:
                 return self.get_find_field_diameter()
             case 'GR':
                 return self.get_telescope_ra()
+            case 'GV':
+                return self.get_telescope_firmware(command)
             case 'GW':
                 return self.get_scope_status()
             case _:
@@ -217,6 +233,7 @@ def emulate_telescope(port):
 
                                     response = state_machine.process_command(c)
                                     if response is not None:
+                                        response += '#' # add the terminating character to the string
                                         print(f'Sending response [{response}]')
                                         client_socket.sendall(response.encode('utf-8'))
 

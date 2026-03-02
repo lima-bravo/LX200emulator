@@ -62,6 +62,17 @@ Home/Park/Sleep/Wake:
 Focuser:
 - `:F+#`, `:F-#`, `:FQ#`, `:F1#`, `:F2#`, `:F3#`, `:F4#` (optionally `:FF#`, `:FS#` as aliases)
 
+## Network–serial bridge (net2serial_bridge)
+
+`net2serial_bridge.py` listens on a TCP port and forwards all traffic to/from a serial port (e.g. `/dev/ttyUSB0`). Optionally logs every read/write with Unix timestamp (millisecond), `R` (read from serial) or `W` (write to serial), and the raw ASCII message.
+
+```bash
+python net2serial_bridge.py [--host 0.0.0.0] [--port 4030] [--serial /dev/ttyUSB0] [--log path.log] [--baud 9600]
+```
+
+- `--log FILE` — append lines to FILE; use `-` for stdout.
+- Log line format: `{unix_ts_ms}:{R|W}:{raw_ascii_message}`
+
 ## State machine design (textual diagrams)
 
 ### Motion region

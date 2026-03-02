@@ -1,0 +1,6 @@
+# Python environment with uv
+Exclusively use uv for the Python environment in this project.
+- Install dependencies: `uv add <package>`
+- Sync dependencies: `uv sync`
+- Run scripts: `uv run <script-name>.py`
+- Never use pip, poetry, or conda.

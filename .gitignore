@@ -1,0 +1,30 @@
+# virtual environments
+.venv
+
+# environment variables
+.env
+
+# test results
+tests/results
+
+# test logs
+tests/logs
+
+# test coverage
+tests/coverage
+
+
+# python artifacts
+dist
+wheels
+*.egg-info
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+
+
+# MacOS 
+.DS_Store

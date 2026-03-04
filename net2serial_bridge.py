@@ -9,6 +9,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import socket
 import sys
 import threading
 import time
@@ -41,36 +42,13 @@ def _log(log_file, direction: str, data: bytes, lock: threading.Lock) -> None:
         log_file.flush()
 
 
-def run_bridge(
-    host: str,
-    port: int,
-    serial_path: str,
-    baud: int,
-    log_path: str | None,
+def _run_client_bridge(
+    client: socket.socket,
+    ser: serial.Serial,
+    log_file,
+    log_lock: threading.Lock,
 ) -> None:
-    import socket
-
-    if log_path == "-":
-        log_file = sys.stdout
-    elif log_path:
-        log_file = open(log_path, "a", encoding="utf-8")
-    else:
-        log_file = None
-    log_lock = threading.Lock()
-    ser = serial.Serial(serial_path, baudrate=baud, timeout=0.1)
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind((host, port))
-    server.listen(1)
-    print(f"Listening on {host}:{port}, serial {serial_path} @ {baud} baud, log={log_path or 'none'}", file=sys.stderr)
-
-    try:
-        client, addr = server.accept()
-    except OSError as e:
-        print(f"Accept failed: {e}", file=sys.stderr)
-        return
-    server.close()
-
+    """Forward between one client and serial until the client disconnects."""
     client.setblocking(True)
     serial_lock = threading.Lock()
     stop = threading.Event()
@@ -118,9 +96,70 @@ def run_bridge(
         client.close()
     except OSError:
         pass
-    ser.close()
-    if log_file and log_path and log_path != "-":
-        log_file.close()
+
+
+def _quit_listener(quit_event: threading.Event) -> None:
+    """Read stdin; set quit_event when user types Q (and Enter)."""
+    try:
+        while not quit_event.is_set():
+            line = input()
+            if line.strip().upper() == "Q":
+                quit_event.set()
+                break
+    except (EOFError, OSError):
+        quit_event.set()
+
+
+def run_bridge(
+    host: str,
+    port: int,
+    serial_path: str,
+    baud: int,
+    log_path: str | None,
+) -> None:
+    if log_path == "-":
+        log_file = sys.stdout
+    elif log_path:
+        log_file = open(log_path, "a", encoding="utf-8")
+    else:
+        log_file = None
+    log_lock = threading.Lock()
+    ser = serial.Serial(serial_path, baudrate=baud, timeout=0.1)
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((host, port))
+    server.listen(1)
+    server.settimeout(1.0)
+
+    quit_event = threading.Event()
+    quit_thread = threading.Thread(target=_quit_listener, args=(quit_event,), daemon=True)
+    quit_thread.start()
+
+    print(
+        f"Listening on {host}:{port}, serial {serial_path} @ {baud} baud, log={log_path or 'none'}",
+        file=sys.stderr,
+    )
+    print("Press Q then Enter to quit.", file=sys.stderr)
+
+    try:
+        while not quit_event.is_set():
+            try:
+                client, addr = server.accept()
+            except TimeoutError:
+                continue
+            except OSError as e:
+                if quit_event.is_set():
+                    break
+                print(f"Accept error: {e}", file=sys.stderr)
+                break
+            print(f"Client connected from {addr}", file=sys.stderr)
+            _run_client_bridge(client, ser, log_file, log_lock)
+            print("Client disconnected, waiting for next connection.", file=sys.stderr)
+    finally:
+        server.close()
+        ser.close()
+        if log_file and log_path and log_path != "-":
+            log_file.close()
 
 
 def main() -> None:

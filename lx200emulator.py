@@ -2,8 +2,10 @@
 # lx200emulator.py
 #
 # an emulator for an LX200 connected to a serial port through ethernet
+
+# requires python 3.10 or newer
 #
-# 20280820-2012
+# 20230820-2012
 # This is the very first version, it connects, that's all... and creates error messages in the app because it does
 # not send the right response.
 #

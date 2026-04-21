@@ -1,0 +1,1388 @@
+{
+    "protocol": "Meade Telescope Serial Command Protocol",
+    "revision": "2012.01",
+    "date": "2012-01-18",
+    "notes": {
+      "terminator": "Commands end with '#'. Responses are '#'-terminated strings unless noted as 'Nothing'.",
+      "precision_modes": {
+        "low":  "RA: HH:MM.T  Dec/Az/El: sDD*MM",
+        "high": "RA: HH:MM:SS  Dec/Az/El: sDD*MM'SS"
+      },
+      "model_support": {
+        "x": "Fully supported",
+        "p": "Partial subset supported",
+        "-": "Not supported"
+      }
+    },
+    "commands": {
+      "ACK": {
+        "group": "Alignment Query",
+        "designator": "<ACK> (0x06)",
+        "commands": [
+          {
+            "cmd": "\u0006",
+            "hex": "0x06",
+            "description": "Query alignment mounting mode",
+            "returns": {
+              "A": "AltAz Mode",
+              "D": "Downloader mode (Autostar II & Autostar)",
+              "L": "Land Mode",
+              "P": "Polar Mode"
+            },
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "EOT": {
+        "group": "Firmware Download Request",
+        "designator": "<EOT> (0x04)",
+        "commands": [
+          {
+            "cmd": "\u0004",
+            "hex": "0x04",
+            "description": "Enter Meade firmware downloader (proprietary)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "A": {
+        "group": "Alignment Commands",
+        "commands": [
+          {
+            "cmd": ":Aa#",
+            "description": "Start Telescope Automatic Alignment Sequence",
+            "returns": { "1": "Alignment complete", "0": "Scope not AzEl mounted or alignment failed" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":AL#",
+            "description": "Sets telescope to Land alignment mode",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":AP#",
+            "description": "Sets telescope to Polar alignment mode",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":AA#",
+            "description": "Sets telescope to AltAz alignment mode",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "$B": {
+        "group": "Active Backlash Compensation",
+        "commands": [
+          {
+            "cmd": ":$BAdd#",
+            "description": "Set Altitude/Dec Antibacklash. <dd> is the backlash value.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$BZdd#",
+            "description": "Set Azimuth/RA Antibacklash. <dd> is the backlash value.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "B": {
+        "group": "Reticule/Accessory Control",
+        "commands": [
+          {
+            "cmd": ":B+#",
+            "description": "Increase reticule brightness",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":B-#",
+            "description": "Decrease reticule brightness",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":B<n>#",
+            "description": "Set reticle flash rate to <n>. LX200: 0..3; Autostar/Autostar II: 0..9",
+            "params": { "n": "ASCII digit. LX200: 0-3, Autostar/AutostarII: 0-9" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":BDn#",
+            "description": "Set Reticule Duty flash duty cycle to <n>. LX200 GPS Only.",
+            "params": { "n": "ASCII digit. 0=On, 1..15=flash rate" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "p", "LX200_16": "-", "AutoStarII": "-" }
+          }
+        ]
+      },
+      "C": {
+        "group": "Sync Control",
+        "commands": [
+          {
+            "cmd": ":CL#",
+            "description": "Synchronize telescope with current Selenographic coordinates",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":CM#",
+            "description": "Synchronizes telescope position with currently selected database object coordinates",
+            "returns": {
+              "LX200": "A '#' terminated string with the name of the synced object",
+              "Autostar_AutostarII": "Static string: ' M31 EX GAL MAG 3.5 SZ178.0'#'"
+            },
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "D": {
+        "group": "Distance Bars",
+        "commands": [
+          {
+            "cmd": ":D#",
+            "description": "Request string of bars indicating distance to current target location",
+            "returns": {
+              "LX200": "String of bar characters indicating distance",
+              "Autostar_AutostarII": "String containing one bar until slew complete, then null string"
+            },
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "f": {
+        "group": "Fan/Heater Commands",
+        "commands": [
+          {
+            "cmd": ":f+#",
+            "description": "Turn on tube exhaust fan (LX16\"/Max/RCX) or accessory panel power (Autostar II)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":f-#",
+            "description": "Turn off tube exhaust fan (LX16\"/Max/RCX) or accessory panel power (Autostar II)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":fH<ddd>#",
+            "description": "Set corrector plate heater level. Max/RCX only.",
+            "params": { "ddd": "Duty cycle 0..100 percent" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":fp+#",
+            "description": "Turn on switched 12V panel power. Max/RCX only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":fp-#",
+            "description": "Turn off switched 12V panel power. Max/RCX only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":fT#",
+            "description": "Return Optical Tube Assembly temperature. Autostar II and Max/RCX.",
+            "returns": "<sdd.ddd># — '#'-terminated signed ASCII real number in Celsius",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":fC#",
+            "description": "Return corrector plate temperature. Max/RCX only.",
+            "returns": "<sdd.ddd># — '#'-terminated signed ASCII real number in Celsius",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          }
+        ]
+      },
+      "F": {
+        "group": "Focuser Control",
+        "commands": [
+          {
+            "cmd": ":F+#",
+            "description": "Start focuser moving inward (toward objective)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":F-#",
+            "description": "Start focuser moving outward (away from objective)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":FB#",
+            "description": "Query focuser busy status. Max/RCX400 only.",
+            "returns": { "0": "Focuser idle", "1": "Focuser moving" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX400": "x" }
+          },
+          {
+            "cmd": ":FC<n/s/e/w>#",
+            "description": "Collimate command — starts corrector plate tilting in specified direction. Max/RCX only. Use :FQ# to halt.",
+            "params": { "direction": "n, s, e, or w" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":FLD<n>#",
+            "description": "Define current position as focuser preset <n>. Max/RCX only.",
+            "params": { "n": "Preset index 1..9" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":FLN<n><name>#",
+            "description": "Assign focuser preset <n> the specified <name>. Max/RCX only.",
+            "params": { "n": "Preset index 1..9", "name": "Name string" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":FLS<n>#",
+            "description": "Sync focuser to preset position <n>. Max/RCX only.",
+            "params": { "n": "Preset index 1..9" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":FPsDDDDD.DDDD#",
+            "description": "Pulse focuser (Autostar II) or move to absolute position in mm (Max/RCX).",
+            "params": {
+              "AutostarII": "sDDDD = signed milliseconds, -65000.0 to +65000.0. Positive=inward, Negative=outward",
+              "MaxRCX": "Decimal millimeters. Poll :FB# for completion."
+            },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":Fp#",
+            "description": "Query digital focuser position. Max/RCX only.",
+            "returns": "'#'-terminated ASCII integer — current focuser position",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "-", "MaxRCX": "x" }
+          },
+          {
+            "cmd": ":FQ#",
+            "description": "Halt focuser motion",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":FF#",
+            "description": "Set focus speed to fastest setting",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":FS#",
+            "description": "Set focus speed to slowest setting",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":F<n>#",
+            "description": "Set focuser speed to <n>. Autostar and Autostar II only.",
+            "params": { "n": "ASCII digit 1..4" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "g": {
+        "group": "GPS/Magnetometer Commands",
+        "commands": [
+          {
+            "cmd": ":g+#",
+            "description": "Turn on GPS. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":g-#",
+            "description": "Turn off GPS. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":gps#",
+            "description": "Turn on NMEA GPS data stream. Autostar II only.",
+            "returns": "Next NMEA format string from GPS followed by '#'",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":gT#",
+            "description": "Power up GPS and update system time from GPS stream. May take several minutes. Interrupts handbox operations. Autostar II only.",
+            "returns": { "0": "User interrupted or GPS timed out", "1": "Successful update" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "G": {
+        "group": "Get Telescope Information",
+        "commands": [
+          {
+            "cmd": ":G0#",
+            "description": "Get Alignment Menu Entry 0 [LX200 legacy]",
+            "returns": "'#'-terminated ASCII string"
+          },
+          {
+            "cmd": ":G1#",
+            "description": "Get Alignment Menu Entry 1 [LX200 legacy]",
+            "returns": "'#'-terminated ASCII string"
+          },
+          {
+            "cmd": ":G2#",
+            "description": "Get Alignment Menu Entry 2 [LX200 legacy]",
+            "returns": "'#'-terminated ASCII string"
+          },
+          {
+            "cmd": ":Ga#",
+            "description": "Get local telescope time in 12-hour format",
+            "returns": "HH:MM:SS#"
+          },
+          {
+            "cmd": ":GA#",
+            "description": "Get telescope altitude",
+            "returns": "sDD*MM# or sDD*MM'SS# depending on precision setting"
+          },
+          {
+            "cmd": ":Gb#",
+            "description": "Get browse brighter magnitude limit — faintest object returned by FIND/BROWSE",
+            "returns": "sMM.M#"
+          },
+          {
+            "cmd": ":GC#",
+            "description": "Get current local calendar date",
+            "returns": "MM/DD/YY#"
+          },
+          {
+            "cmd": ":Gc#",
+            "description": "Get clock format",
+            "returns": { "12#": "12-hour format", "24#": "24-hour format" }
+          },
+          {
+            "cmd": ":GD#",
+            "description": "Get telescope declination",
+            "returns": "sDD*MM# or sDD*MM'SS# depending on precision setting"
+          },
+          {
+            "cmd": ":Gd#",
+            "description": "Get currently selected object/target declination",
+            "returns": "sDD*MM# or sDD*MM'SS# depending on precision setting"
+          },
+          {
+            "cmd": ":GE#",
+            "description": "Get selenographic latitude. LX200gps/RCX only. Returns +99*99# if not pointing at Moon.",
+            "returns": "sDD*MM#",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "LX200gps_RCX": "x" }
+          },
+          {
+            "cmd": ":Ge#",
+            "description": "Get selenographic longitude. LX200gps/RCX only. West=negative. Returns +999*99# if not pointing at Moon.",
+            "returns": "sDDD*MM#",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "LX200gps_RCX": "x" }
+          },
+          {
+            "cmd": ":GF#",
+            "description": "Get find field diameter used in IDENTIFY/FIND commands",
+            "returns": "NNN# (arc minutes, ASCII integer)"
+          },
+          {
+            "cmd": ":Gf#",
+            "description": "Get browse faint magnitude limit — brightest object returned by FIND/BROWSE",
+            "returns": "sMM.M#"
+          },
+          {
+            "cmd": ":GG#",
+            "description": "Get UTC offset time — hours to add to local time to get UTC",
+            "returns": "sHH# or sHH.H# (whole vs. fractional hours)"
+          },
+          {
+            "cmd": ":Gg#",
+            "description": "Get current site longitude. East longitudes are negative.",
+            "returns": "sDDD*MM#"
+          },
+          {
+            "cmd": ":GH#",
+            "description": "Get Daylight Savings Time setting. Autostar II only.",
+            "returns": { "1#": "DST enabled", "0#": "DST disabled" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Gh#",
+            "description": "Get high limit — highest mount-relative altitude telescope will slew to without warning",
+            "returns": "sDD*"
+          },
+          {
+            "cmd": ":GL#",
+            "description": "Get local time in 24-hour format",
+            "returns": "HH:MM:SS#"
+          },
+          {
+            "cmd": ":Gm#",
+            "description": "Get distance to meridian (LST-RA). Max only. Negative on German mount indicates off-side.",
+            "returns": "sDD*MM'SS# or sDD*MM# depending on precision setting",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "Max": "x" }
+          },
+          {
+            "cmd": ":Gl#",
+            "description": "Get larger size limit — smallest object size returned by FIND/BROWSE",
+            "returns": "NNN'#"
+          },
+          {
+            "cmd": ":GM#",
+            "description": "Get site 1 name",
+            "returns": "<string>#"
+          },
+          {
+            "cmd": ":GN#",
+            "description": "Get site 2 name",
+            "returns": "<string>#"
+          },
+          {
+            "cmd": ":GO#",
+            "description": "Get site 3 name",
+            "returns": "<string>#"
+          },
+          {
+            "cmd": ":GP#",
+            "description": "Get site 4 name",
+            "returns": "<string>#"
+          },
+          {
+            "cmd": ":GpB#",
+            "description": "Get backlash values. Autostar and Autostar II.",
+            "returns": "<num> <space><num>#",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":GpH#",
+            "description": "Get home data. Autostar II only.",
+            "returns": "<num><num>#",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":GpS#",
+            "description": "Get sensor offsets (azerror, elerror, home position offset). Autostar II only.",
+            "returns": "<num><num><num>#",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Go#",
+            "description": "Get lower limit — minimum elevation above horizon for slewing without 'Below Horizon' error",
+            "returns": "DD*#"
+          },
+          {
+            "cmd": ":Gq#",
+            "description": "Get minimum quality for FIND operation",
+            "returns": { "SU#": "Super", "EX#": "Excellent", "VG#": "Very Good", "GD#": "Good", "FR#": "Fair", "PR#": "Poor", "VP#": "Very Poor" }
+          },
+          {
+            "cmd": ":GR#",
+            "description": "Get telescope RA",
+            "returns": "HH:MM.T# or HH:MM:SS# depending on precision setting"
+          },
+          {
+            "cmd": ":Gr#",
+            "description": "Get current/target object RA",
+            "returns": "HH:MM.T# or HH:MM:SS# depending on precision setting"
+          },
+          {
+            "cmd": ":GS#",
+            "description": "Get sidereal time",
+            "returns": "HH:MM:SS#"
+          },
+          {
+            "cmd": ":Gs#",
+            "description": "Get smaller size limit — largest object returned by FIND command (in arcminutes)",
+            "returns": "NNN'#"
+          },
+          {
+            "cmd": ":GT#",
+            "description": "Get tracking rate in Hz (60.0 Hz = 1 revolution in 24 hours)",
+            "returns": "TT.T#"
+          },
+          {
+            "cmd": ":Gt#",
+            "description": "Get current site latitude. Positive = North.",
+            "returns": "sDD*MM#"
+          },
+          {
+            "cmd": ":GVD#",
+            "description": "Get telescope firmware date",
+            "returns": "mmm dd yyyy#"
+          },
+          {
+            "cmd": ":GVN#",
+            "description": "Get telescope firmware number",
+            "returns": "dd.d#"
+          },
+          {
+            "cmd": ":GVO#",
+            "description": "Get OTA focuser type",
+            "returns": { "0#": "LX200 type motor focuser", "1#": "RCX OTA digital focuser", "2+": "Reserved" }
+          },
+          {
+            "cmd": ":GVP#",
+            "description": "Get telescope product name",
+            "returns": "<string>#"
+          },
+          {
+            "cmd": ":GVT#",
+            "description": "Get telescope firmware time",
+            "returns": "HH:MM:SS#"
+          },
+          {
+            "cmd": ":GW#",
+            "description": "Get scope alignment status",
+            "returns": "<mount><tracking><alignment>#",
+            "return_detail": {
+              "mount": { "A": "AzEl mounted", "P": "Equatorially mounted", "G": "German mounted equatorial" },
+              "tracking": { "T": "Tracking", "N": "Not tracking" },
+              "alignment": { "0": "Needs alignment", "1": "One star aligned", "2": "Two star aligned", "3": "Three star aligned" }
+            }
+          },
+          {
+            "cmd": ":Gy#",
+            "description": "Get deep sky object search string. Uppercase = class included; lowercase = ignored.",
+            "returns": "GPDCO# where G=Galaxies, P=Planetary Nebulas, D=Diffuse Nebulas, C=Globular Clusters, O=Open Clusters"
+          },
+          {
+            "cmd": ":GZ#",
+            "description": "Get telescope azimuth",
+            "returns": "DDD*MM#T or DDD*MM'SS# depending on precision setting"
+          }
+        ]
+      },
+      "h": {
+        "group": "Home Position Commands",
+        "commands": [
+          {
+            "cmd": ":hC#",
+            "description": "Calibrate home position. Causes aligned telescope to seek default home and remember alignment. Progress checkable with :h?#. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hF#",
+            "description": "Seek home position and set/align scope from encoder values in non-volatile memory.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hIYYMMDDHHMMSS#",
+            "description": "Bypass handbox entry of daylight savings, date and time. Must be issued while telescope is waiting at initial daylight savings prompt. Intended for permanent installations without GPS.",
+            "params": { "YYMMDDHHMMSS": "Date and time values" },
+            "returns": { "1": "Command accepted" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hN#",
+            "description": "Sleep telescope — power off motors, encoders, displays and lights. Wakes on keystroke or :hW#. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hP#",
+            "description": "Slew to park position",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hS#",
+            "description": "Set current scope position as park position. LX200 ignores this command.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":hW#",
+            "description": "Wake up sleeping telescope. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":h?#",
+            "description": "Query home status",
+            "returns": { "0": "Home search failed", "1": "Home search found", "2": "Home search in progress" },
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "H": {
+        "group": "Time Format Command",
+        "commands": [
+          {
+            "cmd": ":H#",
+            "description": "Toggle between 24-hour and 12-hour time format",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "I": {
+        "group": "Initialize Telescope Command",
+        "commands": [
+          {
+            "cmd": ":I#",
+            "description": "Causes telescope to cease current operations and restart at power-on initialization. LX200 GPS only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x", "LX200GPS": "x" }
+          }
+        ]
+      },
+      "L": {
+        "group": "Object Library Commands",
+        "commands": [
+          {
+            "cmd": ":LB#",
+            "description": "Find previous object and set as current target. Autostar II & Autostar: no function.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LCNNNN#",
+            "description": "Set current target to deep sky catalog object number NNNN",
+            "params": { "NNNN": "Catalog object number" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LF#",
+            "description": "Find object using current Size/Type/Limit/Quality constraints and set as current target. Autostar II & Autostar: no function.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":Lf#",
+            "description": "Identify object in current field. Autostar II & Autostar: returns static string '0 - Objects found'.",
+            "returns": "<string># containing number of objects in field and object in center field",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LI#",
+            "description": "Get object information — current target name and type. Autostar II & Autostar: returns static Andromeda Galaxy description.",
+            "returns": "<string>#",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LMNNNN#",
+            "description": "Set current target to Messier Object NNNN",
+            "params": { "NNNN": "ASCII decimal Messier number" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LN#",
+            "description": "Find next deep sky target subject to current constraints. Autostar II & Autostar: no function.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LoD#",
+            "description": "Select deep sky library",
+            "params": { "D": { "0": "NGC (CNGC on Autostar)", "1": "IC", "2": "UGC", "3": "Caldwell (Autostar)", "4": "Arp (LX200GPS/RCX)", "5": "Abell (LX200GPS/RCX)" } },
+            "returns": { "1": "Catalog available", "0": "Catalog not found" },
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LsD#",
+            "description": "Select star catalog",
+            "params": { "D": { "0": "STAR library (not on Autostar I & II)", "1": "SAO", "2": "GCVS", "3": "Hipparcos (Autostar I & II)", "4": "HR (Autostar I & II)", "5": "HD (Autostar I & II)" } },
+            "returns": { "1": "Catalog available", "2": "Catalog not found" },
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          },
+          {
+            "cmd": ":LSNNNN#",
+            "description": "Select star NNNN as current target from currently selected catalog",
+            "params": { "NNNN": "Star number" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "p" }
+          }
+        ]
+      },
+      "M": {
+        "group": "Telescope Movement Commands",
+        "commands": [
+          {
+            "cmd": ":MA#",
+            "description": "Slew to target Alt and Az. LX200: not supported.",
+            "returns": { "0": "No fault", "1": "Fault" },
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MgnDDDD#",
+            "description": "Guide telescope North for DDDD milliseconds (serial port guiding). LX200: not supported.",
+            "params": { "DDDD": "Unsigned milliseconds" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MgsDDDD#",
+            "description": "Guide telescope South for DDDD milliseconds. LX200: not supported.",
+            "params": { "DDDD": "Unsigned milliseconds" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MgeDDDD#",
+            "description": "Guide telescope East for DDDD milliseconds. LX200: not supported.",
+            "params": { "DDDD": "Unsigned milliseconds" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MgwDDDD#",
+            "description": "Guide telescope West for DDDD milliseconds. LX200: not supported.",
+            "params": { "DDDD": "Unsigned milliseconds" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MgS<x>#",
+            "description": "StarLock enable/disable. When enabled, StarLock autoguiding and HPP pointing are active. LX200: not supported.",
+            "params": { "x": { "1": "Enable StarLock autoguiding", "0": "Disable StarLock guiding and HPP" } },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Me#",
+            "description": "Move telescope East at current slew rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Mn#",
+            "description": "Move telescope North at current slew rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Ms#",
+            "description": "Move telescope South at current slew rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Mw#",
+            "description": "Move telescope West at current slew rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":MS#",
+            "description": "Slew to target object",
+            "returns": { "0": "Slew is possible", "1<string>#": "Object below horizon (with message)", "2<string>#": "Object below higher limit (with message)" },
+            "support": { "AutoStar": "x", "LX200_lt16": "p", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "P": {
+        "group": "High Precision Toggle",
+        "commands": [
+          {
+            "cmd": ":P#",
+            "description": "Toggle High Precision Pointing. When enabled, scope first centers a nearby bright star before moving to actual target.",
+            "returns": { "HIGH PRECISION": "High precision now active", "LOW PRECISION": "Low precision now active" },
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "$Q": {
+        "group": "Smart Drive Control",
+        "commands": [
+          {
+            "cmd": ":$Q#",
+            "description": "Toggle Smart Drive PEC on/off for both axes. Not supported on Autostar.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QA+#",
+            "description": "Enable Dec/Alt PEC. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QA-#",
+            "description": "Disable Dec/Alt PEC. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QC#",
+            "description": "Query number of points in the smart mount model. Autostar II only.",
+            "returns": "NNNNN#",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QGNNNNN#",
+            "description": "Read smart mount model point NNNNN. Autostar II only.",
+            "params": { "NNNNN": "Point index" },
+            "returns": "<n><n># — pair of ASCII numbers separated by space, '#'-terminated",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QP<p><n><n>#",
+            "description": "Set smart mount model point <p> to values <n> <n>. All blank-terminated ASCII. Autostar II only.",
+            "params": { "p": "Point index", "n n": "Two blank-terminated ASCII values" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QS+#",
+            "description": "Enable SmartMount. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QS-#",
+            "description": "Disable SmartMount. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QU+#",
+            "description": "Enable SmartMount Update Mode. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QU-#",
+            "description": "Disable SmartMount Update Mode. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QV+#",
+            "description": "Enable Text-To-Speech output. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QV-#",
+            "description": "Disable Text-To-Speech output. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QW#",
+            "description": "Write smart mount model to non-volatile memory. Autostar II only.",
+            "returns": { "1": "OK", "0": "Write fault" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QZ+#",
+            "description": "Enable RA/AZ PEC compensation. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":$QZ-#",
+            "description": "Disable RA/AZ PEC compensation. LX200gps only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "-", "LX200gps": "x" }
+          }
+        ]
+      },
+      "Q": {
+        "group": "Movement Halt Commands",
+        "commands": [
+          {
+            "cmd": ":Q#",
+            "description": "Halt all current slewing",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Qe#",
+            "description": "Halt eastward slews",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Qn#",
+            "description": "Halt northward slews",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Qs#",
+            "description": "Halt southward slews",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Qw#",
+            "description": "Halt westward slews",
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "r": {
+        "group": "Field Derotator Commands",
+        "commands": [
+          {
+            "cmd": ":r+#",
+            "description": "Turn on field derotator. LX16\" and Autostar II.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":r-#",
+            "description": "Turn off field derotator, halt slew in progress. LX16\" and Autostar II.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":rn#",
+            "description": "Orient field rotator to North Up position. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":rh#",
+            "description": "Mark current position as North Up for future reference. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":rC#",
+            "description": "Start fast slew field rotator clockwise. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":rc#",
+            "description": "Start fast slew field rotator counter-clockwise. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":rq#",
+            "description": "Halt field derotator slew. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "R": {
+        "group": "Slew Rate Commands",
+        "commands": [
+          {
+            "cmd": ":RC#",
+            "description": "Set slew rate to Centering rate (2nd slowest)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":RG#",
+            "description": "Set slew rate to Guiding Rate (slowest)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":RM#",
+            "description": "Set slew rate to Find Rate (2nd fastest)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":RS#",
+            "description": "Set slew rate to maximum (fastest)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":RADD.D#",
+            "description": "Set RA/Azimuth slew rate to DD.D degrees per second. Autostar II only.",
+            "params": { "DD.D": "Degrees per second" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":REDD.D#",
+            "description": "Set Dec/Elevation slew rate to DD.D degrees per second. Autostar II only.",
+            "params": { "DD.D": "Degrees per second" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":RgSS.S#",
+            "description": "Set guide rate to +/- SS.S arc seconds per second, added to/subtracted from current tracking rate. Must not exceed sidereal speed (~15.0417\"/sec). Autostar II only.",
+            "params": { "SS.S": "Arc seconds per second" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "S": {
+        "group": "Telescope Set Commands",
+        "commands": [
+          {
+            "cmd": ":SasDD*MM#",
+            "description": "Set target object altitude to sDD*MM or sDD*MM'SS. LX16\", Autostar, Autostar II.",
+            "params": { "sDD*MM": "Signed degrees and arcminutes" },
+            "returns": { "1": "Object within slew range", "0": "Object out of slew range" },
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":SbsMM.M#",
+            "description": "Set brighter magnitude limit",
+            "params": { "sMM.M": "Signed magnitude" },
+            "returns": { "0": "Valid", "1": "Invalid number" }
+          },
+          {
+            "cmd": ":SBn#",
+            "description": "Set baud rate",
+            "params": { "n": { "1": "56700", "2": "38400", "3": "28800", "4": "19200", "5": "14400", "6": "9600", "7": "4800", "8": "2400", "9": "1200" } },
+            "returns": "1 (at current baud rate, then switches to new rate)"
+          },
+          {
+            "cmd": ":SCMM/DD/YY#",
+            "description": "Change handbox date. For Autostar II this is UTC date.",
+            "params": { "MM/DD/YY": "Month, Day, Year" },
+            "returns": { "0": "Invalid date (null string)", "1<string>#": "Valid date — 'Updating Planetary Data# #'" }
+          },
+          {
+            "cmd": ":SdsDD*MM#",
+            "description": "Set target object declination to sDD*MM or sDD*MM:SS depending on precision setting",
+            "params": { "sDD*MM": "Signed degrees and arcminutes" },
+            "returns": { "1": "Dec accepted", "0": "Dec invalid" }
+          },
+          {
+            "cmd": ":SEsDD*MM#",
+            "description": "Set target object to specified selenographic latitude on the Moon",
+            "params": { "sDD*MM": "Selenographic latitude" },
+            "returns": { "1": "Moon is up and coordinates accepted", "0": "Coordinates invalid" }
+          },
+          {
+            "cmd": ":SesDDD*MM#",
+            "description": "Set target object to specified selenographic longitude on the Moon",
+            "params": { "sDDD*MM": "Selenographic longitude" },
+            "returns": { "1": "Moon is up and coordinates accepted", "0": "Coordinates invalid" }
+          },
+          {
+            "cmd": ":SfsMM.M#",
+            "description": "Set faint magnitude limit",
+            "params": { "sMM.M": "Signed magnitude" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SFNNN#",
+            "description": "Set FIELD/IDENTIFY field diameter",
+            "params": { "NNN": "Arc minutes" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SgDDD*MM#",
+            "description": "Set current site longitude. East longitudes expressed as negative.",
+            "params": { "DDD*MM": "Degrees and arcminutes" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SGsHH.H#",
+            "description": "Set hours added to local time to yield UTC",
+            "params": { "sHH.H": "Signed hours offset" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SHD#",
+            "description": "Set daylight savings time parameter. Autostar II only.",
+            "params": { "D": { "1": "Enable DST", "0": "Disable DST" } },
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":ShDD#",
+            "description": "Set maximum object elevation limit",
+            "params": { "DD": "Degrees" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SlNNN#",
+            "description": "Set size of smallest object returned by FIND/BROWSE",
+            "params": { "NNN": "Arc minutes" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SLHH:MM:SS#",
+            "description": "Set local time",
+            "params": { "HH:MM:SS": "Hours, minutes, seconds" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":Sm+#",
+            "description": "Enable smart mount flexure correction. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Sm-#",
+            "description": "Disable smart mount flexure correction. Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":SM<string>#",
+            "description": "Set site 1 name. LX200s: 3 chars max. Others: up to 15 chars.",
+            "params": { "string": "Site name" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SN<string>#",
+            "description": "Set site 2 name. LX200s: 3 chars max. Others: up to 15 chars.",
+            "params": { "string": "Site name" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SO<string>#",
+            "description": "Set site 3 name. LX200s: 3 chars max. Others: up to 15 chars.",
+            "params": { "string": "Site name" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SoDD*#",
+            "description": "Set lowest elevation to which telescope will slew",
+            "params": { "DD*": "Degrees" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SP<string>#",
+            "description": "Set site 4 name. LX200s: 3 chars max. Others: up to 15 chars.",
+            "params": { "string": "Site name" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SpB<num> <num>#",
+            "description": "Set backlash values. Autostar and Autostar II.",
+            "params": { "num num": "Two space-separated backlash values" },
+            "returns": { "1": "Complete", "0": "Programming error" },
+            "support": { "AutoStar": "x", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":SpH<num><num>#",
+            "description": "Set home data. Autostar II only.",
+            "returns": { "1": "Complete", "0": "Programming error" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":SpS<num><num><num>#",
+            "description": "Set sensor offsets. Autostar II only.",
+            "returns": { "1": "Complete", "0": "Programming error" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":Sq#",
+            "description": "Step quality limit used in FIND/BROWSE through cycle VP..SU. Query with :Gq#.",
+            "returns": "Nothing"
+          },
+          {
+            "cmd": ":SrHH:MM.T#",
+            "description": "Set target object RA (low precision)",
+            "params": { "HH:MM.T": "Hours, minutes with tenths" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SrHH:MM:SS#",
+            "description": "Set target object RA (high precision)",
+            "params": { "HH:MM:SS": "Hours, minutes, seconds" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SsNNN#",
+            "description": "Set size of largest object FIND/BROWSE will return",
+            "params": { "NNN": "Arc minutes" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SSHH:MM:SS#",
+            "description": "Set local sidereal time",
+            "params": { "HH:MM:SS": "Hours, minutes, seconds" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":StsDD*MM#",
+            "description": "Set current site latitude. Positive = North.",
+            "params": { "sDD*MM": "Signed degrees and arcminutes" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":STdddd.ddddddd#",
+            "description": "Set current tracking rate in Hz. 60.0000 Hz = one RA revolution in 24 hours. Autostar II only.",
+            "params": { "dddd.ddddddd": "Tracking rate in Hz" },
+            "returns": { "0": "Invalid", "2": "Valid" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":ST+#",
+            "description": "Increment manual rate by 0.1 Hz",
+            "returns": "Nothing"
+          },
+          {
+            "cmd": ":ST-#",
+            "description": "Decrement manual rate by 0.1 Hz",
+            "returns": "Nothing"
+          },
+          {
+            "cmd": ":STA-#",
+            "description": "Disable Altitude SmartDrive (PEC). Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":STA+#",
+            "description": "Enable Altitude SmartDrive (PEC). Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":STZ-#",
+            "description": "Disable RA/Azimuth SmartDrive (PEC). Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":STZ+#",
+            "description": "Enable RA/Azimuth SmartDrive (PEC). Autostar II only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "-", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":SwN#",
+            "description": "Set maximum slew rate to N degrees per second",
+            "params": { "N": "Integer 2..8" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SyGPDCO#",
+            "description": "Set object selection string for FIND/BROWSE. Uppercase=include class, lowercase=exclude.",
+            "params": { "GPDCO": "G=Galaxies, P=Planetary Nebulas, D=Diffuse Nebulas, C=Globular Clusters, O=Open Clusters" },
+            "returns": { "0": "Invalid", "1": "Valid" }
+          },
+          {
+            "cmd": ":SzDDD*MM#",
+            "description": "Set target object azimuth. LX16\" and Autostar II only.",
+            "params": { "DDD*MM": "Degrees and arcminutes" },
+            "returns": { "0": "Invalid", "1": "Valid" },
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "T": {
+        "group": "Tracking Commands",
+        "commands": [
+          {
+            "cmd": ":T+#",
+            "description": "Increment manual tracking rate by 0.1 Hz",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":T-#",
+            "description": "Decrement manual tracking rate by 0.1 Hz",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":TL#",
+            "description": "Set Lunar tracking rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":TM#",
+            "description": "Select custom tracking rate (no-op in Autostar II)",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":TQ#",
+            "description": "Select sidereal tracking rate",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":TS#",
+            "description": "Select Solar tracking rate. LS only.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "p", "LX200_16": "p", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "U": {
+        "group": "Precision Toggle",
+        "commands": [
+          {
+            "cmd": ":U#",
+            "description": "Toggle between low and high precision positions. Low: HH:MM.T / sDD*MM. High: HH:MM:SS / sDD*MM:SS.",
+            "returns": "Nothing",
+            "support": { "AutoStar": "p", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "V": {
+        "group": "PEC Readout",
+        "commands": [
+          {
+            "cmd": ":VDNNNN#",
+            "description": "Read Dec PEC Table Entry NNNN. Autostar II and Classic 16\" only. PecRate = TheoreticalRate * sD.DDD for this segment.",
+            "params": { "NNNN": "Worm segment index" },
+            "returns": "D.DDDD (rate adjustment factor)",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          },
+          {
+            "cmd": ":VRNNNN#",
+            "description": "Read RA PEC Table Entry NNNN. Autostar II and Classic 16\" only. PecRate = TheoreticalRate * sD.DDD for this segment.",
+            "params": { "NNNN": "Worm segment index" },
+            "returns": "D.DDDD (rate adjustment factor)",
+            "support": { "AutoStar": "-", "LX200_lt16": "-", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "W": {
+        "group": "Site Select",
+        "commands": [
+          {
+            "cmd": ":W<n>#",
+            "description": "Set current site",
+            "params": { "n": "ASCII digit 1..4" },
+            "returns": "Nothing",
+            "support": { "AutoStar": "x", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "x" }
+          }
+        ]
+      },
+      "?": {
+        "group": "Help Text Retrieval",
+        "commands": [
+          {
+            "cmd": ":??#",
+            "description": "Set help text cursor to start of first line",
+            "returns": "<string># — first string of general handbox help file",
+            "support": { "AutoStar": "-", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "-" }
+          },
+          {
+            "cmd": ":?+#",
+            "description": "Retrieve next line of help text",
+            "returns": "<string># — next string of general handbox help file",
+            "support": { "AutoStar": "-", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "-" }
+          },
+          {
+            "cmd": ":?-#",
+            "description": "Retrieve previous line of help text",
+            "returns": "<string># — previous string of general handbox help file",
+            "support": { "AutoStar": "-", "LX200_lt16": "x", "LX200_16": "x", "AutoStarII": "-" }
+          }
+        ]
+      }
+    }
+  }

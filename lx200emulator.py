@@ -7,6 +7,70 @@
 # This is the very first version, it connects, that's all... and creates error messages in the app because it does
 # not send the right response.
 #
+# LX200 Command Reference
+# These commands are used by ScopeBoss and are implemented in this emulator:
+#
+# Telescope Movement Commands:
+# :Mn# - Move telescope north at current slew rate
+# :Ms# - Move telescope south at current slew rate
+# :Me# - Move telescope east at current slew rate
+# :Mw# - Move telescope west at current slew rate
+# :Q#  - Stop all telescope motion 
+#
+# Slew Rate Commands:
+# :RG# - Set slew rate to guide (slowest)
+# :RC# - Set slew rate to centering
+# :RM# - Set slew rate to find (medium)
+# :RS# - Set slew rate to slew (fastest)
+# :Rn# - Set slew rate to n (1-9)
+#
+# Display/Handset Commands:
+# :ED# - Get the current display text from the handset
+# :EKnn# - Simulate keypress (nn is decimal ASCII code)
+#    :EK13# - Enter key
+#    :EK9#  - Mode key
+#    :EK85# - Up arrow
+#    :EK68# - Down arrow
+#    :EK71# - GoTo key
+# :ESnnnn# - Send specific menu command (nnnn is menu item number)
+#
+# Telescope Information Commands:
+# :GVP# - Get telescope product name
+# :GVN# - Get telescope firmware version
+# :GVD# - Get telescope firmware date
+# :GVT# - Get telescope firmware time
+# :G0#  - Get alignment menu entry
+# :GR#  - Get telescope RA
+# :GD#  - Get telescope DEC
+# :GA#  - Get telescope altitude
+# :GZ#  - Get telescope azimuth
+# :GF#  - Get find field diameter
+# :GW#  - Get scope status
+#
+# Telescope Setting Commands:
+# :SFnnn# - Set find field diameter (nnn is diameter in arcminutes)
+# :Sr[HH:MM:SS]# - Set target object RA
+# :Sd[sDD*MM:SS]# - Set target object DEC (s is + or -)
+# :CM#  - Synchronize telescope position to target coordinates
+# :MS#  - Slew to target object
+# :hN#  - Sleep scope
+# :I#   - Initialize telescope
+#
+# Time/Location Commands:
+# :GC# - Get current date
+# :GL# - Get current location (latitude)
+# :GG# - Get current longitude
+# :GT# - Get current time (local 24hr format)
+# :SL[sDD*MM:SS]# - Set latitude (s is + or -)
+# :SG[sDDD*MM:SS]# - Set longitude (s is + or -)
+#
+# Special Commands - Unique to ScopeBoss
+# :DELAY n# - Wait for n seconds
+# :DELAYUNTIL HH:MM:SS# - Wait until local time HH:MM:SS
+# :WAITFOR "string"# - Wait until display contains string
+# :WAITNOT "string"# - Wait until display no longer contains string
+# :BTNCMDEND# - End of button command sequence
+#
 import socket
 import time
 import datetime
@@ -157,6 +221,13 @@ class TelescopeStateMachine:
         self.send_buffer = ''  # make the send buffer empty
         self.current_menu_depth = 0
         self.current_menu_keys = [ list(self.menu_structure.keys())[0] ] # get the first entry and make this the default menu entry
+        # Add new state properties
+        self.altDeg = 45.0
+        self.azDeg = 180.0
+        self.target_ra = self.ra  # Initialize with current position
+        self.target_dec = self.dec
+        self.slewSpeedIndex = 6   # Default to 1.5°/s
+        self.scopeIsAsleep = False
 
     def set_display_line1(self, line):
         self.display_line1 = '{:16}'.format(line)
@@ -348,7 +419,7 @@ class TelescopeStateMachine:
         sign = '+'
         if self.dec < 0:
             sign = '-'
-        return f'{sign}{deg}*{min}\'{sec}#'
+        return f'{sign}{deg}°{min}:{sec}#'
 
     def get_find_field_diameter(self):
         return '1{:03d}\'#'.format(self.find_field_diameter)
@@ -356,6 +427,17 @@ class TelescopeStateMachine:
     def get_telescope_ra(self):
         deg, min, sec = self.deg_min_sec(self.ra)
         return f'{deg}:{min}:{sec}#'
+    
+    def get_telescope_alt(self):
+        deg, min, sec = self.deg_min_sec(self.altDeg if hasattr(self, 'altDeg') else 45.0)
+        sign = '+'
+        if hasattr(self, 'altDeg') and self.altDeg < 0:
+            sign = '-'
+        return f'{sign}{deg}°{min}:{sec}#'
+    
+    def get_telescope_az(self):
+        deg, min, sec = self.deg_min_sec(self.azDeg if hasattr(self, 'azDeg') else 180.0)
+        return f'{deg}°{min}:{sec}#'
 
     def get_scope_status(self):
         return 'ANP'
@@ -365,13 +447,25 @@ class TelescopeStateMachine:
         # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
             case 'GVD':
-                return f'{datetime.strftime("%b %d %Y")}#'
+                return f'{datetime.datetime.now().strftime("%b %d %Y")}#'
             case 'GVN':
                 return '4.2l#'
             case 'GVP':
                 return 'LX200#'
             case 'GVT':
-                return f'{datetime.strftime("%H:%M:%S")}#'
+                return f'{datetime.datetime.now().strftime("%H:%M:%S")}#'
+    
+    def get_current_date(self):
+        return f'{datetime.datetime.now().strftime("%m/%d/%y")}#'
+    
+    def get_current_time(self):
+        return f'{datetime.datetime.now().strftime("%H:%M:%S")}#'
+    
+    def get_latitude(self):
+        return f'+40°45:00#'  # Default latitude
+    
+    def get_longitude(self):
+        return f'-074°00:00#'  # Default longitude
 
     def process_telescope_information(self, command):
         target = command[1:3]
@@ -389,42 +483,211 @@ class TelescopeStateMachine:
                 return self.get_telescope_firmware(command)
             case 'GW':
                 return self.get_scope_status()
+            case 'GA':
+                return self.get_telescope_alt()
+            case 'GZ':
+                return self.get_telescope_az()
+            case 'GC':
+                return self.get_current_date()
+            case 'GT':
+                return self.get_current_time()
+            case 'GL':
+                return self.get_latitude()
+            case 'GG':
+                return self.get_longitude()
+            case _:
+                return self.nack()
+
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Movement Commands ':M'
+    # +-----------------------------------------------------------------------------------------------------------+
+    
+    def move_north(self):
+        self.dec += 0.001 * (self.slewSpeedIndex + 1)
+        if self.dec > 90:
+            self.dec = 90
+        return None  # a command that does not require a response
+    
+    def move_south(self):
+        self.dec -= 0.001 * (self.slewSpeedIndex + 1)
+        if self.dec < -90:
+            self.dec = -90
+        return None  # a command that does not require a response
+    
+    def move_east(self):
+        self.ra += 0.001 * (self.slewSpeedIndex + 1)
+        if self.ra > 24:
+            self.ra -= 24
+        return None  # a command that does not require a response
+    
+    def move_west(self):
+        self.ra -= 0.001 * (self.slewSpeedIndex + 1)
+        if self.ra < 0:
+            self.ra += 24
+        return None  # a command that does not require a response
+    
+    def stop_motion(self):
+        return None  # a command that does not require a response
+    
+    def process_movement(self, command):
+        target = command[1:3]
+        match target:
+            case 'Mn':
+                return self.move_north()
+            case 'Ms':
+                return self.move_south()
+            case 'Me':
+                return self.move_east()
+            case 'Mw':
+                return self.move_west()
             case _:
                 return self.nack()
 
     # +-----------------------------------------------------------------------------------------------------------+
     # function block Slew Rate ':R'
     # +-----------------------------------------------------------------------------------------------------------+
+    def set_slew_rate_to_guide(self):
+        self.slewSpeedIndex = 0
+        return None  # a command that does not require a response
+    
     def set_slew_rate_to_centering(self):
+        self.slewSpeedIndex = 1
+        return None  # a command that does not require a response
+    
+    def set_slew_rate_to_find(self):
+        self.slewSpeedIndex = 4
+        return None  # a command that does not require a response
+    
+    def set_slew_rate_to_max(self):
+        self.slewSpeedIndex = 8
+        return None  # a command that does not require a response
+    
+    def set_slew_rate_to_n(self, command):
+        try:
+            n = int(command[2:3])
+            if 1 <= n <= 9:
+                self.slewSpeedIndex = n - 1
+        except ValueError:
+            pass
         return None  # a command that does not require a response
 
     def process_slew_rate(self, command):
         target = command[1:3]
         # plog(f'{sys._getframe().f_code.co_name} Match {target}')
         match target:
+            case 'RG':
+                return self.set_slew_rate_to_guide()
             case 'RC':
                 return self.set_slew_rate_to_centering()
+            case 'RM':
+                return self.set_slew_rate_to_find()
+            case 'RS':
+                return self.set_slew_rate_to_max()
             case _:
+                # Check if it's a numeric rate
+                if len(command) >= 3 and command[1] == 'R' and '1' <= command[2] <= '9':
+                    return self.set_slew_rate_to_n(command)
                 return self.nack()
 
     # +-----------------------------------------------------------------------------------------------------------+
     # function block telescope Set commands ':S'
     # +-----------------------------------------------------------------------------------------------------------+
     def set_find_field_diameter(self, command):
-        diameter = int(command[3:6])
-        plog(f'Field diameter set to {diameter}')
-        self.find_field_diameter = diameter
-        # if field diameter is valid return 1, else return 0
-        # assume that the value is always correct
-        return '1'
+        try:
+            diameter = int(command[3:6])
+            plog(f'Field diameter set to {diameter}')
+            self.find_field_diameter = diameter
+            # if field diameter is valid return 1, else return 0
+            # assume that the value is always correct
+            return '1'
+        except ValueError:
+            return '0'
+    
+    def set_target_ra(self, command):
+        # Format :SrHH:MM:SS#
+        try:
+            ra_str = command[3:-1]  # Remove :Sr and trailing #
+            parts = ra_str.split(':')
+            if len(parts) == 3:
+                hours = int(parts[0])
+                minutes = int(parts[1])
+                seconds = int(parts[2])
+                self.target_ra = hours + minutes/60.0 + seconds/3600.0
+                return '1'
+        except (ValueError, IndexError):
+            pass
+        return '0'
+    
+    def set_target_dec(self, command):
+        # Format :SdsDD*MM:SS# where s is + or -
+        try:
+            dec_str = command[3:-1]  # Remove :Sd and trailing #
+            sign = 1
+            if dec_str[0] == '-':
+                sign = -1
+                dec_str = dec_str[1:]
+            elif dec_str[0] == '+':
+                dec_str = dec_str[1:]
+                
+            parts = dec_str.replace('*', ':').split(':')
+            if len(parts) == 3:
+                degrees = int(parts[0])
+                minutes = int(parts[1])
+                seconds = int(parts[2])
+                self.target_dec = sign * (degrees + minutes/60.0 + seconds/3600.0)
+                return '1'
+        except (ValueError, IndexError):
+            pass
+        return '0'
+    
+    def sync_to_target(self):
+        if hasattr(self, 'target_ra') and hasattr(self, 'target_dec'):
+            self.ra = self.target_ra
+            self.dec = self.target_dec
+            self.set_display_line1('Sync Complete')
+            return 'Coordinates     matched.       #'
+        return 'Error syncing    coordinates     #'
+    
+    def slew_to_target(self):
+        if hasattr(self, 'target_ra') and hasattr(self, 'target_dec'):
+            self.ra = self.target_ra
+            self.dec = self.target_dec
+            self.set_display_line1('Slew Complete')
+            return '0'  # Success
+        return '1'  # Error
 
     def process_telescope_set(self, command):
         target = command[1:3]
         match target:
             case 'SF':
                 return self.set_find_field_diameter(command)
+            case 'Sr':
+                return self.set_target_ra(command)
+            case 'Sd':
+                return self.set_target_dec(command)
             case _:
                 return self.nack()
+    
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Misc Commands ':'
+    # +-----------------------------------------------------------------------------------------------------------+
+    def process_misc_commands(self, command):
+        if command.startswith(':CM'):
+            return self.sync_to_target()
+        elif command.startswith(':MS'):
+            return self.slew_to_target()
+        elif command.startswith(':Q'):
+            return self.stop_motion()
+        elif command.startswith(':I'):
+            # Initialize telescope
+            self.set_display_line1('Initializing...')
+            return None
+        elif command.startswith(':hN'):
+            # Sleep scope
+            self.set_display_line1('Scope sleeping')
+            self.scopeIsAsleep = True
+            return None
+        return self.nack()
 
     # +-----------------------------------------------------------------------------------------------------------+
     # function block command Tree
@@ -445,6 +708,10 @@ class TelescopeStateMachine:
                 result = self.process_slew_rate(command)
             case ':S':
                 result = self.process_telescope_set(command)
+            case ':M':
+                result = self.process_movement(command)
+            case ':':
+                result = self.process_misc_commands(command)
             case _:
                 result = self.nack()
         # add the result to the send buffer
@@ -474,6 +741,18 @@ class TelescopeStateMachine:
 
         return False
 
+    # +-----------------------------------------------------------------------------------------------------------+
+    # function block Telescope Alignment ':A'
+    # +-----------------------------------------------------------------------------------------------------------+
+    
+    def process_alignment(self, command):
+        # Handle alignment commands
+        if command.startswith(':A'):
+            # For now, just return a valid response
+            self.set_display_line1('Aligned')
+            return '0'  # Success
+        return self.nack()
+
 
 def listen_for_and_process_data(client_socket, state_machine):
     show_response = True
@@ -499,7 +778,7 @@ def listen_for_and_process_data(client_socket, state_machine):
                             # does it start with ':'
                             if c[0] == ':':
                                 state_machine.process_command(c)
-        except BlockingIOError as e:
+        except (BlockingIOError, ConnectionResetError) as e:
             plog(f'{type(e)}')
             # pass
 

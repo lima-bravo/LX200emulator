@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.14"
+# dependencies = []
+# ///
 """
 lx200emulator_v2.py
 
@@ -10,8 +14,9 @@ Maintains full telescope state: RA/Dec, AltAz (computed via coordinate math),
 site info, mount mode, tracking state, slew state, precision mode, etc.
 
 Usage:
-    python lx200emulator_v2.py <port>    # run server on given TCP port
-    python lx200emulator_v2.py test      # run self-tests
+    uv run lx200emulator_v2.py <port>          # run server on given TCP port
+    uv run lx200emulator_v2.py test            # run self-tests
+    uv run lx200emulator_v2.py 4030 --emulate lx200classic
 """
 
 import argparse
@@ -1529,7 +1534,8 @@ def run_tests():
     print('\nAll tests complete.')
 
 
-if __name__ == '__main__':
+def main() -> None:
+    """Entry point for ``uv run lx200emulator_v2.py`` and the console script."""
     parser = argparse.ArgumentParser(
         description='Meade LX200 telescope emulator over TCP',
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -1558,3 +1564,7 @@ if __name__ == '__main__':
         except ValueError:
             parser.error(f'port must be an integer or "test", got: {args.port!r}')
         emulate_telescope(port, mode=args.emulate)
+
+
+if __name__ == '__main__':
+    main()

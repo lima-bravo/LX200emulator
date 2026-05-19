@@ -12,8 +12,9 @@ dependencies = [
 [project.scripts]
 # Asyncio-based server (scopeboss_emulator package — recommended for development)
 scopeboss-emulator = "scopeboss_emulator.server:main"
-# Threading-based standalone emulator (lx200emulator_v2.py — legacy / simpler)
-lx200emulator = "lx200emulator_v2:main"
+# Threading-based standalone emulators (v2.py files — simpler / no dependencies)
+lx200emulator   = "lx200emulator_v2:main"
+nexstaremulator = "nexstaremulator:main"
 
 [dependency-groups]
 dev = [

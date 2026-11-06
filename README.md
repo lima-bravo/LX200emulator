@@ -1,14 +1,12 @@
 # LX200emulator
 
->>>>>>> 1eb0d59336aba89db7ea34d053159cc330bb8bc8
-
 This python utility emulates an LX200GPS connected to a SkiFi device. It is intended to help speed development of LX200 apps for iOS and Android.
 
 This utility is very incomplete and will extend over time, as more features are needed.
 
-Usage: `python lx200emulator.py <port>`
+Usage (legacy LX200 emulator): `uv run lx200emulator 4030`
 
-The default port is 4030.
+The default TCP port is 4030. See **Setup** and **Run** below for all entry points.
 
 
 ## Meade LX200 Serial Protocol
@@ -45,6 +43,45 @@ It is designed as a **deterministic reference model** for:
 - TDD (golden tests)
 - UI refactors (SwiftUI migration)
 - transport swapping (real serial vs TCP emulator) without changing higher-level behavior
+
+## Setup
+
+Requires [uv](https://docs.astral.sh/uv/) and Python 3.14.
+
+```bash
+uv sync              # install runtime + dev dependencies
+uv sync --no-dev     # runtime dependencies only
+```
+
+Add a runtime dependency: `uv add <package>`. Add a dev dependency: `uv add --dev <package>`.
+
+## Run
+
+**ScopeBoss state-machine emulator** (recommended for development):
+
+```bash
+uv run scopeboss-emulator --host 127.0.0.1 --port 4030
+```
+
+**Legacy LX200 TCP emulator**:
+
+```bash
+uv run lx200emulator 4030
+```
+
+**NexStar emulator**:
+
+```bash
+uv run nexstaremulator <port>
+```
+
+## Tests
+
+See [tests/README.md](tests/README.md). Quick start:
+
+```bash
+uv run pytest tests/unit -v
+```
 
 ## Grounded protocol behaviors
 
@@ -97,7 +134,7 @@ Focuser:
 `net2serial_bridge.py` listens on a TCP port and forwards all traffic to/from a serial port (e.g. `/dev/ttyUSB0`). Optionally logs every read/write with Unix timestamp (millisecond), `R` (read from serial) or `W` (write to serial), and the raw ASCII message.
 
 ```bash
-python net2serial_bridge.py [--host 0.0.0.0] [--port 4030] [--serial /dev/ttyUSB0] [--log path.log] [--baud 9600]
+uv run net2serial_bridge.py [--host 0.0.0.0] [--port 4030] [--serial /dev/ttyUSB0] [--log path.log] [--baud 9600]
 ```
 
 - `--log FILE` — append lines to FILE; use `-` for stdout.

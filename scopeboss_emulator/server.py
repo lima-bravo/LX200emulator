@@ -2,27 +2,15 @@
 from __future__ import annotations
 import argparse
 import asyncio
-from typing import Optional
 
 from .config import load_config, EmulatorConfig
 from .protocol.parser import StreamParser
-from .core.state import TelescopeState, LinkState, MotionState
-from .core.policy import is_allowed, NAK_BYTE
-from .core.reducer import handle_command, tick
-
-TICK_MS = 50
+from .protocol.types import CmdAck, CmdFrame
+from .simulator import TelescopeSimulator
 
 async def client_session(reader: asyncio.StreamReader, writer: asyncio.StreamWriter, cfg: EmulatorConfig) -> None:
     parser = StreamParser(max_len=cfg.max_frame_len)
-    state = TelescopeState(link=LinkState.CONNECTED, motion=MotionState.IDLE_TRACKING)
-
-    async def ticker():
-        nonlocal state
-        while True:
-            await asyncio.sleep(TICK_MS / 1000.0)
-            state = tick(state, TICK_MS, cfg)
-
-    tick_task = asyncio.create_task(ticker())
+    simulator = TelescopeSimulator(cfg)
 
     try:
         while True:
@@ -32,25 +20,17 @@ async def client_session(reader: asyncio.StreamReader, writer: asyncio.StreamWri
 
             cmds = parser.feed(data)
             for cmd in cmds:
-                # lock/busy policy
-                pol = is_allowed(state.motion, cmd)
-                if not pol.allowed:
-                    if pol.immediate_reply is not None:
-                        writer.write(pol.immediate_reply)
-                        await writer.drain()
-                    continue
-
-                # apply command
-                state, reply = handle_command(state, cmd, cfg)
+                if isinstance(cmd, CmdAck):
+                    reply = simulator.process(b"\x06")
+                elif isinstance(cmd, CmdFrame):
+                    reply = simulator.process(cmd.text)
+                else:
+                    reply = None
                 if reply is not None:
                     writer.write(reply)
                     await writer.drain()
     finally:
-        tick_task.cancel()
-        try:
-            await tick_task
-        except asyncio.CancelledError:
-            pass
+        simulator.close()
         writer.close()
         await writer.wait_closed()
 
